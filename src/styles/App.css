@@ -1,0 +1,231 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.tagsDiv {
+  padding: 7px;
+}
+
+.tagsDiv button {
+  color: #4b4b4b;
+  text-transform: capitalize;
+  padding: 1px;
+  margin: 2px;
+}
+
+.tagsDiv button:hover {
+  background-color: #000000;
+  color: white;
+}
+
+.paginationDiv {
+  margin: 60px 4px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.weeklyOffer {
+  border: 14px solid rgba(0, 0, 0, 0.4);
+  background-image: url("../../public/bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.tagsDiv {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 3px;
+}
+
+.tagsDiv .tagWrapper {
+  margin: 2px 4px;
+}
+
+.addImageContainer {
+  width: 220px;
+  height: 220px;
+  border-radius: 4px;
+  background-color: #cecece;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#productLink:hover {
+  text-decoration: none;
+}
+
+#filtersContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+#filtersContainer select {
+  border: none;
+  background-color: #4b4b4b;
+  color: #e2e2e2;
+  height: 40px;
+}
+
+#filtersContainer #orderByContainer {
+  display: inline-block;
+  background-color: #4b4b4b;
+}
+
+#filtersContainer #orderByContainer #orderTxt {
+  background-color: #292f34;
+  padding: 6px;
+  height: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#filtersContainer #filtersBtnDiv {
+  background-color: #292f34;
+}
+
+#filtersContainer #filtersBtnDiv button {
+  background-color: inherit;
+  border: none;
+  color: #e2e2e2;
+  height: 40px;
+  padding: 0px 9px;
+}
+
+.priceInputsDiv {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.priceInputsDiv .priceDiv input {
+  width: 120px;
+  border: 1px solid #c4c4c4;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.subscribeForm input, .subscribeForm button {
+  padding: 11px;
+  border: none;
+  font-size: 16x;
+}
+
+.subscribeForm input {
+  width: clamp(300px, 80%, 400px);
+}
+
+.subscribeForm button {
+  background: #2f87d1;
+  color: white;
+}
+
+.footer {
+  background-color: black;
+  padding: 60px 10px;
+  color: rgba(245, 245, 245, 0.801);
+}
+
+.footer .links {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+.footer .links h5 {
+  font-weight: bolder;
+  margin-bottom: 11px;
+}
+
+.footer .links ul {
+  list-style: none;
+  text-transform: capitalize;
+  margin: 0px;
+  padding: 0px;
+}
+
+.footer .links ul li {
+  margin-top: 10px;
+}
+
+.productViewImage {
+  width: 100%;
+  height: auto;
+}
+
+.underline {
+  width: 75px;
+  height: 3px;
+  background-color: #faaf00;
+}
+
+.underline1 {
+  width: 125px;
+  height: 3px;
+  background-color: #faaf00;
+  margin-top: 4px;
+}
+
+.cartControls button {
+  padding: 0px;
+  margin: 0px;
+  font-size: 3px;
+}
+
+.registerFormBg {
+  background-image: url("../images/register.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+/*# sourceMappingURL=App.css.map */

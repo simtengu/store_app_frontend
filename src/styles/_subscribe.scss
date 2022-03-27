@@ -1,0 +1,16 @@
+.subscribeForm {
+
+    input,button {
+    padding: 11px;
+    border: none;
+    font-size: 16x;
+    }
+
+    input {
+       width: clamp(300px,80%,400px); 
+    }
+    button {
+        background: #2f87d1;
+        color: white;
+    }
+}

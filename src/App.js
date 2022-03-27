@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import Home from './pages/Home';
+import ResponsiveAppBar from './components/AppBar'
+import ScrollToTop from './components/ScrollToTop'
+import Footer from './components/Footer';
+import ProductView from './pages/ProductView';
+import Subscribe from "./components/Subscribe";
+import NotFound from "./components/NotFound";
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import Account from './pages/Account';
+import Auth from './pages/Auth';
+import { Route, Routes } from 'react-router-dom';
+import FilteredProducts from './pages/FilteredProducts';
+const App = () => {
+ // const user_token = localStorage.getItem('store_app_token');
 
-function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/* scroll to top ...................... */}
+      <ScrollToTop />
+      <ResponsiveAppBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products/filtered" element={<FilteredProducts />} />
+        <Route path="/product_details/:id" element={<ProductView />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/user_account/:email" element={<Account />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Subscribe />
+      <Footer />
+    </>
   );
 }
 
