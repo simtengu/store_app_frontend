@@ -1,9 +1,9 @@
-import { Container, Divider, Grid } from "@mui/material";
+import { Box, Container, Divider, Grid } from "@mui/material";
 import React from "react";
-import Hero from "../components/Hero"
-import BestCategories from "../components/BestCategories"
+import Hero from "../components/Hero";
+import BestCategories from "../components/BestCategories";
 import MainTitle from "../components/MainTitle";
-import SideBar from "../components/sidebar/SideBar"
+import SideBar from "../components/sidebar/SideBar";
 import Products from "../components/Products";
 import WeeklyOffer from "../components/WeeklyOffer";
 const Home = () => {
@@ -17,14 +17,15 @@ const Home = () => {
         <Grid container rowSpacing={2} spacing={2}>
           <Grid item md={9}>
             <Products />
-            <WeeklyOffer />
+            <Box mt={8}>
+              <WeeklyOffer />
+            </Box>
           </Grid>
           <Grid item md={3}>
             <SideBar />
           </Grid>
         </Grid>
       </Container>
-      
     </>
   );
 };

@@ -8,6 +8,7 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 export const SET_FILTERED_PRODUCTS = 'SET_FILTERED_PRODUCTS';
+export const SET_TRENDING__PRODUCTS = 'SET_TRENDING__PRODUCTS';
 
 
 //ACTION CREATORS FOR ADMIN.............................................. 
@@ -75,17 +76,17 @@ export const update_product = (info) => {
 
 //ACTION CREATORS FOR NORMAL USERS............................. 
 
-export const fetchProducts = () => {
+export const fetchProducts = (page) => {
     return async (dispatch) => {
         //fetch from the server................ 
-        const rs = await api.get("/products");
+        const rs = await api.get(`/products?page=${page}`);
         const rsData = await rs.data;
         if (rs.status !== 200) {
             throw new Error("Something went wrong, please try again later")
         }
         dispatch({
             type: SET_PRODUCTS,
-            payload: rsData.products
+            payload: {products:rsData.products,count:rsData.count}
         })
     }
 }
@@ -119,4 +120,13 @@ export const setFilteredProducts = (payload)=>{
      payload
  })  
  } 
+}
+
+export const setTrendingProducts = (payload) => {
+    return (dispatch) => {
+        dispatch({
+            type: SET_TRENDING__PRODUCTS,
+            payload
+        })
+    }
 }

@@ -1,17 +1,19 @@
-import { Box, CardMedia, Grid, Paper, Typography } from '@mui/material';
-import React from 'react';
-const TrendingItem = (props) => {
-    const {img,title,price,category} = props;
-    return (
-      <>
-        <Grid item xs={6} md={12}>
+import { Box, CardMedia, Grid, Paper, Typography } from "@mui/material";
+import React from "react";
+import { Link } from "react-router-dom";
+const TrendingItem = ({ product }) => {
+  const { images, title, price, category,_id } = product;
+  return (
+    <>
+      <Grid item xs={6} md={12}>
+        <Link id="productLink" to={`/product_details/${_id}`}>
           <Paper elevation={3}>
             <Grid container>
               <Grid item xs={4}>
                 <CardMedia
                   component="img"
                   sx={{ width: "100%" }}
-                  image={img}
+                  image={images[0]}
                   alt="trending img"
                 />
               </Grid>
@@ -27,7 +29,7 @@ const TrendingItem = (props) => {
                     variant="body2"
                     sx={{ color: "grey", display: "block" }}
                   >
-                    {price} Tsh
+                    {price.toLocaleString()} Tsh
                   </Typography>
 
                   <Typography
@@ -40,9 +42,10 @@ const TrendingItem = (props) => {
               </Grid>
             </Grid>
           </Paper>
-        </Grid>
-      </>
-    );
-}
- 
+        </Link>
+      </Grid>
+    </>
+  );
+};
+
 export default TrendingItem;

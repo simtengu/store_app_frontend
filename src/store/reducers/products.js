@@ -1,7 +1,7 @@
-import { ADD_PRODUCT,SET_FILTERED_PRODUCTS, SET_PRODUCTS, SET_SYSTEM_PRODUCTS, DELETE_PRODUCT, UPDATE_PRODUCT, SET_SELECTED_PRODUCT } from "../actions/products";
+import { ADD_PRODUCT, SET_FILTERED_PRODUCTS, SET_TRENDING__PRODUCTS, SET_PRODUCTS, SET_SYSTEM_PRODUCTS, DELETE_PRODUCT, UPDATE_PRODUCT, SET_SELECTED_PRODUCT } from "../actions/products";
 
 let initialState = {
-    products: [],
+    products: {products:[],count:0},
     systemProducts: [],
     selectedProduct: {},
     filteredProducts:{
@@ -10,7 +10,8 @@ let initialState = {
             name:"",
             value:"Latest First"
         }
-    }
+    },
+    trendingProducts: []
 }
 const productsReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -45,7 +46,7 @@ const productsReducer = (state = initialState, action) => {
         case SET_PRODUCTS:
             return {
                 ...state,
-                products: action.payload
+                products: {products:action.payload.products,count:action.payload.count} 
             }
         case SET_SELECTED_PRODUCT:
             return {
@@ -56,6 +57,11 @@ const productsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 filteredProducts: action.payload
+            }
+        case SET_TRENDING__PRODUCTS:
+            return {
+                ...state,
+                trendingProducts: action.payload
             }
         default:
             return state;

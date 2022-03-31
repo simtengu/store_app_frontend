@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { Search as SearchIcon } from "@mui/icons-material";
 import {
   Backdrop,
@@ -22,67 +22,70 @@ import img3 from "../../images/1.jpg";
 import TrendingItem from "./TrendingItem";
 import { categories, tags } from "../../resources/productData";
 import { useNavigate } from "react-router-dom";
- import axios from "../../api";
-import { useDispatch } from "react-redux";
+import axios from "../../api";
+import { useDispatch,useSelector } from "react-redux";
 import { setFilteredProducts } from "../../store/actions/products";
 const SideBar = () => {
   const dispatch = useDispatch();
-   const navigate = useNavigate();
-const [isLoading,setIsLoading] = useState(false);
-
-  const handleCategory = async (category)=>{
-try {
-  setIsLoading(true)
-  const rs = await axios.get(`/products/filtered?category=${category}`);
-  const rsData = await rs.data;
-  const foundProducts = rsData.products;
-  setIsLoading(false)
-  if (foundProducts.length > 0) {
-    const payload = {
-      products: foundProducts,
-      category: {
-        name: "category",
-        value: category,
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const handleCategory = async (category) => {
+    try {
+      setIsLoading(true);
+      const rs = await axios.get(`/products/filtered?category=${category}`);
+      const rsData = await rs.data;
+      const foundProducts = rsData.products;
+      setIsLoading(false);
+      if (foundProducts.length > 0) {
+        const payload = {
+          products: foundProducts,
+          category: {
+            name: "category",
+            value: category,
+          },
+        };
+        dispatch(setFilteredProducts(payload));
+        navigate("/products/filtered");
+      } else {
+        alert("sorry we couldn't find any products for you");
       }
-    };
-   dispatch(setFilteredProducts(payload));
-   navigate('/products/filtered')
-  
-  }else{
- alert("sorry we couldn't find any products for you")
-  }
-} catch (error) {
-  console.log(error)
-}
-  }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-//handle filter by tags ....................
-   const handleTag = async (tag) => {
-     try {
-       setIsLoading(true);
-       const rs = await axios.get(`/products/filtered?tag=${tag}`);
-       const rsData = await rs.data;
-       const foundProducts = rsData.products;
-       setIsLoading(false);
-       if (foundProducts.length > 0) {
-         const payload = {
-           products: foundProducts,
-           category: {
-             name: "Tag",
-             value: tag,
-            },
-          };
-          dispatch(setFilteredProducts(payload));
-          navigate("/products/filtered");
-        } else {
-          alert("sorry we couldn't find any products for you");
-        }
-      } catch (error) {
-       setIsLoading(false);
-       console.log(error);
-     }
-   };
-  
+  //handle filter by tags ....................
+  const handleTag = async (tag) => {
+    try {
+      setIsLoading(true);
+      const rs = await axios.get(`/products/filtered?tag=${tag}`);
+      const rsData = await rs.data;
+      const foundProducts = rsData.products;
+      setIsLoading(false);
+      if (foundProducts.length > 0) {
+        const payload = {
+          products: foundProducts,
+          category: {
+            name: "Tag",
+            value: tag,
+          },
+        };
+        dispatch(setFilteredProducts(payload));
+        navigate("/products/filtered");
+      } else {
+        alert("sorry we couldn't find any products for you");
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
+  };
+
+  //fetch trending items....... 
+    const {
+      trendingProducts
+    } = useSelector((state) => state.products);
+
   return (
     <>
       <Backdrop
@@ -125,39 +128,25 @@ try {
       <Divider />
       <SideBarItem title="Product Tags">
         <div className="tagsDiv">
-          
-          {tags.map((tag,index)=> <Button onClick={()=>handleTag(tag)} key={index}>{tag}</Button>)}
+          {tags.map((tag, index) => (
+            <Button onClick={() => handleTag(tag)} key={index}>
+              {tag}
+            </Button>
+          ))}
         </div>
       </SideBarItem>
 
-      <SideBarItem title="Trending Products">
-        <Grid container rowSpacing={0.5}>
-          <TrendingItem
-            title="Samsung Galaxy"
-            price="200000"
-            img={img}
-            category="phone"
-          />
-          <TrendingItem
-            title="Tecno Camon X"
-            price="50000"
-            img={img3}
-            category="phone"
-          />
-          <TrendingItem
-            title="Fifa 2022"
-            price="20020"
-            img={img2}
-            category="Games"
-          />
-          <TrendingItem
-            title="Flat Screen Tv"
-            price="20020"
-            img={img1}
-            category="Electronics"
-          />
-        </Grid>
-      </SideBarItem>
+      {trendingProducts.length > 0 ? (
+        <SideBarItem title="Trending Products">
+          <Grid container rowSpacing={0.5}>
+            {trendingProducts.map((product) => {
+              return <TrendingItem key={product._id} product={product} />;
+            })}
+          </Grid>
+        </SideBarItem>
+      ) : (
+        ""
+      )}
     </>
   );
 };

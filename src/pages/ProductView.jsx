@@ -8,7 +8,6 @@ import {
   Divider,
   Grid,
   IconButton,
-  Link,
   Paper,
   Stack,
   Tooltip,
@@ -23,21 +22,29 @@ import {
   Star,
 } from "@mui/icons-material";
 import Product from "../components/Product";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { assignSelectedProduct } from "../store/actions/products";
+import {
+  assignSelectedProduct,
+  setTrendingProducts,
+} from "../store/actions/products";
 import ItemDetails from "../components/productView/ItemDetails";
+import axios from "../api";
+import { addCartItem, reduceCartItem } from "../store/actions/cart";
 const ProductView = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id: productId } = useParams();
   const { selectedProduct } = useSelector((state) => state.products);
+  const {
+    cart: { cartItems },
+  } = useSelector((state) => state.cart);
   const { product, relatedProducts } = selectedProduct;
   const [isLoading, setIsLoading] = useState(true);
   const [activeImg, setActiveImg] = useState(0);
-  const handleSetImg = (index)=>{
-    setActiveImg(index)
-  }
+  const handleSetImg = (index) => {
+    setActiveImg(index);
+  };
   useEffect(() => {
     const getProductInfo = async () => {
       try {
@@ -53,6 +60,26 @@ const ProductView = () => {
 
     getProductInfo();
   }, [productId]);
+
+  //updating products number of views
+  useEffect(() => {
+    const updateTrendingProducts = async () => {
+      try {
+        const rs = await axios.patch(`/products/trendingUpdate/${productId}`);
+        if (rs.status === 200) {
+          const rsData = await rs.data;
+          dispatch(setTrendingProducts(rsData.products));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    updateTrendingProducts();
+  }, [productId]);
+  let cartItem;
+  if (cartItems.some((item) => item._id === productId)) {
+     cartItem = cartItems.find((item) => (item._id = productId));
+  }
 
   if (isLoading) {
     return (
@@ -75,16 +102,10 @@ const ProductView = () => {
       <Container sx={{ mb: 5 }}>
         <Box sx={{ py: 1, px: 2, my: 2, bgcolor: "#eef1f2" }}>
           <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href="/">
+            <Link style={{ color: "#4b4b4b" }} to="/">
               Home
             </Link>
-            <Link
-              underline="hover"
-              color="inherit"
-              href="/getting-started/installation/"
-            >
-              Product Details
-            </Link>
+            <span>Product Details</span>
           </Breadcrumbs>
         </Box>
 
@@ -95,12 +116,11 @@ const ProductView = () => {
               <Grid item xs={12} md={6}>
                 {/* selected  image...................... */}
                 <a href={product.images[activeImg]} target="blank">
-
-                <img
-                  className="productViewImage"
-                  src={product.images[activeImg]}
-                  alt="product "
-                />
+                  <img
+                    className="productViewImage"
+                    src={product.images[activeImg]}
+                    alt="product "
+                  />
                 </a>
                 {/* other product images .................... */}
                 <Grid
@@ -135,25 +155,43 @@ const ProductView = () => {
 
                   <Stack direction="row" spacing={1}>
                     <Tooltip title="Add to cart" placement="top" arrow>
-                      <IconButton>
+                      <IconButton
+                        onClick={() => {
+                          dispatch(addCartItem(product));
+                        }}
+                      >
                         <AddShoppingCart sx={{ color: "#faaf00" }} />
                       </IconButton>
                     </Tooltip>
 
-                    <Stack
-                      direction="row"
-                      className="cartControls"
-                      alignItems="center"
-                      justifyContent="center"
-                    >
-                      <IconButton color="primary">
-                        <ArrowLeft />
-                      </IconButton>
-                      <Typography variant="body2">1</Typography>
-                      <IconButton color="primary">
-                        <ArrowRight />
-                      </IconButton>
-                    </Stack>
+                    {cartItems.some((item) => item._id === productId) && (
+                      <Stack
+                        direction="row"
+                        className="cartControls"
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <IconButton
+                          onClick={() => {
+                            dispatch(reduceCartItem(productId));
+                          }}
+                          color="primary"
+                        >
+                          <ArrowLeft />
+                        </IconButton>
+                        <Typography variant="body2">
+                          {cartItem.quantity}
+                        </Typography>
+                        <IconButton
+                          onClick={() => {
+                            dispatch(addCartItem(product));
+                          }}
+                          color="primary"
+                        >
+                          <ArrowRight />
+                        </IconButton>
+                      </Stack>
+                    )}
                   </Stack>
                   <Box mt={2}>
                     <Stack

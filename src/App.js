@@ -12,8 +12,26 @@ import Account from './pages/Account';
 import Auth from './pages/Auth';
 import { Route, Routes } from 'react-router-dom';
 import FilteredProducts from './pages/FilteredProducts';
+import axios from "./api"
+import { useDispatch } from 'react-redux';
+import { setTrendingProducts } from './store/actions/products';
 const App = () => {
  // const user_token = localStorage.getItem('store_app_token');
+ const dispatch = useDispatch();
+useEffect(() => {
+  const getTrendingProducts = async ()=>{
+    try {
+      const rs = await axios.get('/products/filtered?sort=trending');
+      const rsData = await rs.data;
+      dispatch(setTrendingProducts(rsData.products))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  getTrendingProducts()
+
+}, [])
+
 
 
   return (

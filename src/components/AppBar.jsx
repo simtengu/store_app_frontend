@@ -58,6 +58,8 @@ function ScrollTop(props) {
 
 const ResponsiveAppBar = (props) => {
   const dispatch = useDispatch();
+  const {cart:{totalQuantity}} = useSelector(state => state.cart)
+  
   const navigate = useNavigate();
 
   const {authUser} = useSelector(state => state.auth);
@@ -196,7 +198,7 @@ const ResponsiveAppBar = (props) => {
                   </IconButton>
                 </Link>
                 <Link to="/cart">
-                  <Badge color="secondary" badgeContent={99}>
+                  <Badge color="secondary" badgeContent={totalQuantity > 0 ? totalQuantity : "0"}>
                     <ShoppingCart sx={{ color: "#bcbcbc", mx: 1 }} />
                   </Badge>
                 </Link>

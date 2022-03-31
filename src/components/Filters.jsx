@@ -19,13 +19,15 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import { brands, categories, orderBys, tags } from "../resources/productData";
 import axios from "../api";
 import { setFilteredProducts } from "../store/actions/products";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-const Filters = () => {
+
+const Filters = (props) => {
+  const { onOpenVerticalProducts, onOpenHorizontalProducts } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -42,6 +44,7 @@ const Filters = () => {
   const [fBrand, setFBrand] = useState("");
   const [fSort, setFSort] = useState("Latest First");
 
+
   //handle tags selection.....
   const handleTagSelection = (e) => {
     let tag = e.target.value;
@@ -55,7 +58,8 @@ const Filters = () => {
   };
   //handle custom products filter..................
   const handleCustomFilter = async () => {
-      setIsDialogOpen(false)
+
+    setIsDialogOpen(false);
     //sort products....
     let sort;
     if (fSort === "Latest First") {
@@ -110,7 +114,6 @@ const Filters = () => {
       filterString += `&brand=${fBrand}`;
     }
 
-
     //fetching product from api basing on filters set...........
     try {
       setIsLoading(true);
@@ -124,7 +127,7 @@ const Filters = () => {
         category: {
           name: "Filtered",
           value: "Custom Filter",
-        },
+        }
       };
       dispatch(setFilteredProducts(payload));
       navigate("/products/filtered");
@@ -135,8 +138,9 @@ const Filters = () => {
   };
 
   //handle orderby........
-  const handleOrderBy = async (e) => {
-    let value = e.target.value;
+  const handleOrderBy = async (event) => {
+
+   let value = event.target.value;
     setOrderBy(value);
     let sort;
     if (value === "Latest First") {
@@ -164,7 +168,9 @@ const Filters = () => {
 
     try {
       setIsLoading(true);
-      const rs = await axios.get(`/products/filtered?sort=${sort}`);
+      const rs = await axios.get(
+        `/products/filtered?sort=${sort}`
+      );
       const rsData = await rs.data;
       const foundProducts = rsData.products;
       setIsLoading(false);
@@ -174,7 +180,7 @@ const Filters = () => {
         category: {
           name: "Sorted",
           value,
-        },
+        }
       };
       dispatch(setFilteredProducts(payload));
       navigate("/products/filtered");
@@ -184,13 +190,12 @@ const Filters = () => {
     }
   };
 
-
   const handlePriceRange = (event, newValue) => {
-   
     setPriceRange(newValue);
     setMinPrice(newValue[0] * 10000);
     setMaxPrice(newValue[1] * 10000);
   };
+
   return (
     <>
       <Backdrop
@@ -400,8 +405,16 @@ const Filters = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <Box sx={{ mb: 3 }} id="filtersContainer">
-        <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+
+      <Box sx={{ mb: 2 }} id="filtersContainer">
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            mb: 1,
+          }}
+        >
           <Box id="orderByContainer" sx={{ mr: 1 }}>
             <Stack alignItems="center" direction="row">
               <div id="orderTxt">
@@ -435,16 +448,22 @@ const Filters = () => {
             </button>
           </Box>
         </Box>
-        <Box>
+        <Box sx={{ mb: 1 }}>
           <Stack
             direction="row"
             divider={<Divider orientation="vertical" flexItem />}
             spacing={2}
           >
-            <IconButton sx={{ backgroundColor: "#f4f5f7" }}>
+            <IconButton
+              onClick={onOpenVerticalProducts}
+              sx={{ backgroundColor: "#f4f5f7" }}
+            >
               <Apps />
             </IconButton>
-            <IconButton sx={{ backgroundColor: "#f4f5f7" }}>
+            <IconButton
+              onClick={onOpenHorizontalProducts}
+              sx={{ backgroundColor: "#f4f5f7" }}
+            >
               <DensitySmall />
             </IconButton>
           </Stack>

@@ -31,11 +31,11 @@ const ItemDetails = ({ product }) => {
           sx={{ fontWeight: "bolder", color: "#4b4b4b" }}
         >
           Brand : {product.brand}
-        </Typography> 
+        </Typography>
       )}
 
       {product.tags && (
-        <Typography variant="caption" sx={{ color: "#869da4", fontSize: 15 }}>
+        <Typography variant="caption" sx={{ color: "#7a969c", fontSize: 15 }}>
           Tags : {product.tags.map((tag) => tag + ",")}
         </Typography>
       )}
