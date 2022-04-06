@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "../../api";
 import { useDispatch,useSelector } from "react-redux";
 import { setFilteredProducts } from "../../store/actions/products";
+import { openSearchDiv } from "../../store/actions/errorAndLoading";
 const SideBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -103,7 +104,11 @@ const SideBar = () => {
           alignItems: "center",
         }}
       >
-        <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search Item" />
+        <InputBase
+          sx={{ ml: 1, flex: 1 }}
+          placeholder="Search Item..."
+          onFocus={() => dispatch(openSearchDiv())}
+        />
         <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
           <SearchIcon />
         </IconButton>

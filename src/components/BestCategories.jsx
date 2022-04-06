@@ -18,8 +18,8 @@ import {
   Slider
 } from "@mui/material";
 import * as React from "react";
-import img from "../images/img.png";
-import img1 from "../images/img1.png";
+import computer from "../images/lenovo.jpg";
+import phone from "../images/3.jpg";
 
  
 import CategoryItem from "./CategoryItem";
@@ -29,15 +29,13 @@ const BestCategories = () => {
 
   return (
     <>
-       
-        <MainTitle title="Best Categories" />
-        <Grid container spacing={5}>
-          <CategoryItem img={img} title="Clothes" />
-          <CategoryItem img={img1} title="Electronics" />
-          <CategoryItem img={img} title="Video Games" />
-          <CategoryItem img={img1} title="Home Equipments" />
-        </Grid>
-      
+      <MainTitle title="Best Categories" />
+      <Grid container spacing={5}>
+        <CategoryItem img={computer} title="computers" />
+        <CategoryItem img={phone} title="clothes" />
+        <CategoryItem img={phone} title="phones" />
+        <CategoryItem img={computer} title="shoes" />
+      </Grid>
     </>
   );
 };

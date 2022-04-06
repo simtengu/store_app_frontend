@@ -1,14 +1,20 @@
-import { ADD_PRODUCT, SET_FILTERED_PRODUCTS, SET_TRENDING__PRODUCTS, SET_PRODUCTS, SET_SYSTEM_PRODUCTS, DELETE_PRODUCT, UPDATE_PRODUCT, SET_SELECTED_PRODUCT } from "../actions/products";
+import {
+    ADD_PRODUCT, SET_FILTERED_PRODUCTS,
+    SET_TRENDING__PRODUCTS, SET_PRODUCTS,
+    SET_SYSTEM_PRODUCTS,
+    DELETE_PRODUCT, UPDATE_PRODUCT,
+    SET_SELECTED_PRODUCT
+} from "../actions/products";
 
 let initialState = {
-    products: {products:[],count:0},
+    products: { products: [], count: 0 },
     systemProducts: [],
-    selectedProduct: {},
-    filteredProducts:{
-        products:[],
-        category:{
-            name:"",
-            value:"Latest First"
+    // selectedProduct: {},
+    filteredProducts: {
+        products: [],
+        category: {
+            name: "",
+            value: "Latest First"
         }
     },
     trendingProducts: []
@@ -46,13 +52,13 @@ const productsReducer = (state = initialState, action) => {
         case SET_PRODUCTS:
             return {
                 ...state,
-                products: {products:action.payload.products,count:action.payload.count} 
+                products: { products: action.payload.products, count: action.payload.count }
             }
-        case SET_SELECTED_PRODUCT:
-            return {
-                ...state,
-                selectedProduct: { product: action.payload.selectedProduct, relatedProducts: action.payload.relatedProducts }
-            }
+        // case SET_SELECTED_PRODUCT:
+        //     return {
+        //         ...state,
+        //         selectedProduct: { product: action.payload.selectedProduct, relatedProducts: action.payload.relatedProducts }
+        //     }
         case SET_FILTERED_PRODUCTS:
             return {
                 ...state,

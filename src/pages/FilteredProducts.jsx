@@ -6,14 +6,13 @@ import {
   CircularProgress,
   Container,
   Grid,
-  Link,
   Typography,
 } from "@mui/material";
 import SideBar from "../components/sidebar/SideBar";
 import Product from "../components/Product";
 import { useSelector } from "react-redux";
 import Filters from "../components/Filters";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import HorizontalProduct from "../components/HorizontalProduct";
 
 const FilteredProducts = () => {
@@ -51,7 +50,7 @@ const FilteredProducts = () => {
       <Container sx={{ mb: 5 }}>
         <Box sx={{ py: 1, px: 2, my: 2, bgcolor: "#eef1f2" }}>
           <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href="/">
+            <Link style={{ color: "#808080" }} to="/">
               Home
             </Link>
             <span>{`${category.name}( ${category.value})`}</span>

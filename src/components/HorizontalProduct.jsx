@@ -44,7 +44,11 @@ const HorizontalProduct = ({ product }) => {
         <Card
           id="productCard"
           onClick={handleProductClicked}
-          sx={{ display: "flex", width: { xs: "100%", md: "95%" } }}
+          sx={{
+            display: "flex",
+            width: { xs: "100%", md: "95%" },
+            "&:hover": { boxShadow: "1px 1px 3px #768cff" },
+          }}
         >
           <CardMedia
             sx={{ width: "40%" }}

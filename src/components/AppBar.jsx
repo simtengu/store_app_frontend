@@ -7,15 +7,40 @@ import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Zoom from "@mui/material/Zoom";
 import { Link, useNavigate } from "react-router-dom";
-import { AccountCircle, Mail, Phone, Search, ShoppingCart, Star, StarBorder } from "@mui/icons-material";
-import { Badge, Grid, InputBase, Stack,MenuItem,Button,Container,Menu,Typography,IconButton,Toolbar,Box,AppBar} from "@mui/material";
-import { useDispatch,useSelector } from "react-redux";
+import {
+  AccountCircle,
+  Mail,
+  Phone,
+  Search,
+  ShoppingCart,
+  StarBorder,
+} from "@mui/icons-material";
+import {
+  Badge,
+  Grid,
+  InputBase,
+  Stack,
+  MenuItem,
+  Button,
+  Container,
+  Menu,
+  Typography,
+  IconButton,
+  Toolbar,
+  Box,
+  AppBar,
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import {
   activate_login_form,
   activate_register_form,
 } from "../store/actions/authForms";
 import { setAuthUser, unSetAuthUser } from "../store/actions/auth";
 import axios from "../api/secureApi";
+import {
+  openSearchDiv
+} from "../store/actions/errorAndLoading";
+import ProductsSearch from "./ProductsSearch";
 
 //end of scroll to top
 //scroll to top component.......................................
@@ -58,59 +83,64 @@ function ScrollTop(props) {
 
 const ResponsiveAppBar = (props) => {
   const dispatch = useDispatch();
-  const {cart:{totalQuantity}} = useSelector(state => state.cart)
-  
+  const {
+    cart: { totalQuantity },
+  } = useSelector((state) => state.cart);
+
   const navigate = useNavigate();
 
-  const {authUser} = useSelector(state => state.auth);
+  const { authUser } = useSelector((state) => state.auth);
 
-  //menu section ........................... 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
+  //menu section ...........................
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const { isSearchDivActive } = useSelector((state) => state.errorAndLoading);
 
-    //logout........... 
-    const handleLogOut = ()=>{
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-      dispatch(unSetAuthUser());
-      localStorage.removeItem('store_app_token');
-      handleClose();
-      navigate("/", { replace: true });
+  //logout...........
+  const handleLogOut = () => {
+    dispatch(unSetAuthUser());
+    localStorage.removeItem("store_app_token");
+    handleClose();
+    navigate("/", { replace: true });
+  };
 
-    }
 
-    //logging in the user ............
-    
-    React.useEffect(() => {
-      if(!authUser){
-        const token = localStorage.getItem('store_app_token');
-        if (token) {
-          const fetchAuthUser = async ()=>{
-            const response = await axios.get('/user');
-            const {user} = response.data;
-            if(user){
-              dispatch(setAuthUser(user))
-            }
+  //logging in the user ............
+
+  React.useEffect(() => {
+    if (!authUser) {
+      const token = localStorage.getItem("store_app_token");
+      if (token) {
+        const fetchAuthUser = async () => {
+          const response = await axios.get("/user");
+          const { user } = response.data;
+          if (user) {
+            dispatch(setAuthUser(user));
           }
-          try {
-            fetchAuthUser()
-          } catch (error) {
-            console.log(error.response.message);
-            localStorage.removeItem('store_app_token')
-          }
+        };
+        try {
+          fetchAuthUser();
+        } catch (error) {
+          console.log(error.response.message);
+          localStorage.removeItem("store_app_token");
         }
-
       }
-
-    }, [])
-
+    }
+  }, []);
+ 
   return (
     <>
+      {isSearchDivActive && (
+        <ProductsSearch />
+      )}
+
       <Box sx={{ p: 1, bgcolor: "#343a40" }}>
         <Container>
           <Grid container spacing={4}>
@@ -189,6 +219,7 @@ const ResponsiveAppBar = (props) => {
                   variant="standard"
                   placeholder="search..."
                   sx={{ color: "whitesmoke", width: { xs: 100, md: 250 } }}
+                  onFocus={() => dispatch(openSearchDiv())}
                 />
               </Box>
               <Box sx={{ display: { xs: "none", md: "inline" } }}>
@@ -198,7 +229,10 @@ const ResponsiveAppBar = (props) => {
                   </IconButton>
                 </Link>
                 <Link to="/cart">
-                  <Badge color="secondary" badgeContent={totalQuantity > 0 ? totalQuantity : "0"}>
+                  <Badge
+                    color="secondary"
+                    badgeContent={totalQuantity > 0 ? totalQuantity : "0"}
+                  >
                     <ShoppingCart sx={{ color: "#bcbcbc", mx: 1 }} />
                   </Badge>
                 </Link>
@@ -206,7 +240,7 @@ const ResponsiveAppBar = (props) => {
                 {authUser ? (
                   <div style={{ display: "inline" }}>
                     <IconButton
-                    sx={{mx:1}}
+                      sx={{ mx: 1 }}
                       id="basic-button"
                       aria-controls={open ? "basic-menu" : undefined}
                       aria-haspopup="true"
@@ -225,8 +259,14 @@ const ResponsiveAppBar = (props) => {
                         "aria-labelledby": "basic-button",
                       }}
                     >
-                     
-                      <MenuItem onClick={()=>{navigate(`/user_account/${authUser.email}`);handleClose()}}>My account</MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          navigate(`/user_account/${authUser.email}`);
+                          handleClose();
+                        }}
+                      >
+                        My account
+                      </MenuItem>
                       <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                     </Menu>
                   </div>

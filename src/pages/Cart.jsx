@@ -28,7 +28,7 @@ import {
   
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { addCartItem, reduceCartItem } from "../store/actions/cart";
+import { addCartItem, clearCart, reduceCartItem } from "../store/actions/cart";
 import { Link, useNavigate } from "react-router-dom";
 
 
@@ -76,9 +76,9 @@ const Cart = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {cartItems.map((item) => (
+                        {cartItems.map((item,index) => (
                           <TableRow
-                            key={item._id}
+                            key={index}
                             sx={{
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
@@ -143,6 +143,10 @@ const Cart = () => {
                 )}
               </Box>
               {cartItems.length > 0 && (
+                <>
+              
+                <Stack direction="row" my={1} > <Button onClick={()=>dispatch(clearCart())} variant="outlined">clear cart</Button> </Stack>
+          
                 <Box
                   sx={{
                     display: "inline-block",
@@ -187,6 +191,7 @@ const Cart = () => {
                     CheckOut
                   </Button>
                 </Box>
+                </>
               )}
             </Box>
           </Grid>

@@ -92,7 +92,7 @@ export const fetchProducts = (page) => {
 }
 
 export const assignSelectedProduct = (productId) => {
-    return async (dispatch, getState) => {
+    return async (dispatch) => {
 
         // const state = getState();
 
@@ -104,7 +104,7 @@ export const assignSelectedProduct = (productId) => {
     //   ?category = ${ selectedProduct.category }& brand=${ selectedProduct.brand }
         //fetching related products....................... 
         const rs = await api.get(`/products/related/${productId}`);
-        const rsData = await rs.data;
+        const rsData =  rs.data;
         dispatch({
             type: SET_SELECTED_PRODUCT,
             payload: { selectedProduct: rsData.product, relatedProducts: rsData.relatedProducts }

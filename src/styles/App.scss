@@ -1,6 +1,35 @@
 * {
   box-sizing: border-box;
 }
+
+input:focus,select:focus,textarea:focus {
+  outline: none;
+}
+ .searchResult {
+  
+   display: flex;
+   img {
+     max-width: 20%;
+     
+   }
+ }
+.searchInput {
+   min-width:100%;border:0px;
+   font-size: 18px;
+
+}
+.searchDivContainer {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-color: rgba($color: #1780e2, $alpha: 0.3);
+  z-index: 100;
+
+ 
+}
+
 .tagsDiv {
   padding: 7px;
   button {

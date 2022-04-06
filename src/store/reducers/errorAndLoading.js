@@ -1,9 +1,10 @@
-import { SET_ERROR, UNSET_ERROR, SET_LOADING, UNSET_LOADING, } from '../actions/errorAndLoading';
+import { SET_ERROR, UNSET_ERROR, SET_LOADING, UNSET_LOADING,OPEN_SEARCH_DIV,CLOSE_SEARCH_DIV } from '../actions/errorAndLoading';
 
 let initialState = {
     isErrorActive: false,
     errorMessage: "",
-    isLoading: false
+    isLoading: false,
+    isSearchDivActive: false
 }
 const errorAndLoadingReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -30,6 +31,18 @@ const errorAndLoadingReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: false
+            }
+
+        case OPEN_SEARCH_DIV:
+            return {
+                ...state,
+                isSearchDivActive: true
+            }
+
+        case CLOSE_SEARCH_DIV:
+            return {
+                ...state,
+                isSearchDivActive: false
             }
 
         default:

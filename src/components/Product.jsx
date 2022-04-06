@@ -43,7 +43,10 @@ const Product = ({ product }) => {
         <Card
           id="productCard"
           onClick={handleProductClicked}
-          sx={{ width: { xs: "100%", md: "95%" } }}
+          sx={{
+            width: { xs: "100%", md: "95%" },
+            "&:hover": { boxShadow: "1px 1px 3px #db8526" },
+          }}
         >
           <CardMedia component="img" alt="green iguana" image={images[0]} />
 
@@ -76,23 +79,23 @@ const Product = ({ product }) => {
             {cartItems.some((item) => item._id === id) ? (
               <Tooltip title="Go To Cart" placement="top" arrow>
                 <IconButton
-                  onClick={(e) =>{e.stopPropagation();navigate("/cart")} }
+                  sx={{ color: "green" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate("/cart");
+                  }}
                   aria-label="to cart"
                 >
-                  <ShoppingCart sx={{ color: "success" }} />
+                  <ShoppingCart />
                 </IconButton>
               </Tooltip>
             ) : (
               <Tooltip title="Add To Cart" placement="top" arrow>
-                <IconButton
-                  onClick={handleAddToCart}
-                  aria-label="to cart"
-                >
+                <IconButton onClick={handleAddToCart} aria-label="to cart">
                   <AddShoppingCart sx={{ color: "primary.light" }} />
                 </IconButton>
               </Tooltip>
             )}
-
 
             <div style={{ marginLeft: "auto", marginTop: "auto" }}>
               <Rating

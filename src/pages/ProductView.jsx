@@ -35,13 +35,15 @@ const ProductView = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id: productId } = useParams();
-  const { selectedProduct } = useSelector((state) => state.products);
+  // const { selectedProduct } = useSelector((state) => state.products);
+  // const { product, relatedProducts } = selectedProduct;
   const {
     cart: { cartItems },
   } = useSelector((state) => state.cart);
-  const { product, relatedProducts } = selectedProduct;
   const [isLoading, setIsLoading] = useState(true);
   const [activeImg, setActiveImg] = useState(0);
+  const [product, setProduct] = useState({});
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const handleSetImg = (index) => {
     setActiveImg(index);
   };
@@ -49,7 +51,17 @@ const ProductView = () => {
     const getProductInfo = async () => {
       try {
         setIsLoading(true);
-        await dispatch(assignSelectedProduct(productId));
+          const rs = await axios.get(`/products/related/${productId}`);
+          const rsData = rs.data;
+          setProduct(rsData.product)
+          setRelatedProducts(rsData.relatedProducts)
+          // dispatch({
+          //   type: SET_SELECTED_PRODUCT,
+          //   payload: {
+          //     selectedProduct: rsData.product,
+          //     relatedProducts: rsData.relatedProducts,
+          //   },
+          // });
         setIsLoading(false);
       } catch (error) {
         //setIsLoading(false);
@@ -62,24 +74,32 @@ const ProductView = () => {
   }, [productId]);
 
   //updating products number of views
-  useEffect(() => {
-    const updateTrendingProducts = async () => {
-      try {
-        const rs = await axios.patch(`/products/trendingUpdate/${productId}`);
-        if (rs.status === 200) {
-          const rsData = await rs.data;
-          dispatch(setTrendingProducts(rsData.products));
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    updateTrendingProducts();
-  }, [productId]);
+  // useEffect(() => {
+  //   const updateTrendingProducts = async () => {
+  //     try {
+  //       const rs = await axios.patch(`/products/trendingUpdate/${productId}`);
+  //       if (rs.status === 200) {
+  //         const rsData = await rs.data;
+  //         dispatch(setTrendingProducts(rsData.products));
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   updateTrendingProducts();
+  // }, [productId]);
   let cartItem;
   if (cartItems.some((item) => item._id === productId)) {
-     cartItem = cartItems.find((item) => (item._id = productId));
+    cartItem = cartItems.find((item) => (item._id === productId));
   }
+
+  const handleAddCartItem = ()=>{
+    dispatch(addCartItem(product))
+  }
+
+    const handleRemoveCartItem = () => {
+      dispatch(reduceCartItem(productId));
+    };
 
   if (isLoading) {
     return (
@@ -155,16 +175,12 @@ const ProductView = () => {
 
                   <Stack direction="row" spacing={1}>
                     <Tooltip title="Add to cart" placement="top" arrow>
-                      <IconButton
-                        onClick={() => {
-                          dispatch(addCartItem(product));
-                        }}
-                      >
+                      <IconButton onClick={handleAddCartItem}>
                         <AddShoppingCart sx={{ color: "#faaf00" }} />
                       </IconButton>
                     </Tooltip>
 
-                    {cartItems.some((item) => item._id === productId) && (
+                    {cartItem && (
                       <Stack
                         direction="row"
                         className="cartControls"
@@ -172,9 +188,7 @@ const ProductView = () => {
                         justifyContent="center"
                       >
                         <IconButton
-                          onClick={() => {
-                            dispatch(reduceCartItem(productId));
-                          }}
+                          onClick={handleRemoveCartItem}
                           color="primary"
                         >
                           <ArrowLeft />
@@ -182,12 +196,7 @@ const ProductView = () => {
                         <Typography variant="body2">
                           {cartItem.quantity}
                         </Typography>
-                        <IconButton
-                          onClick={() => {
-                            dispatch(addCartItem(product));
-                          }}
-                          color="primary"
-                        >
+                        <IconButton onClick={handleAddCartItem} color="primary">
                           <ArrowRight />
                         </IconButton>
                       </Stack>
@@ -241,3 +250,131 @@ const ProductView = () => {
 };
 
 export default ProductView;
+
+// import { ADD_CART_ITEM, REDUCE_CART_ITEM, PLACE_ORDER, CLEAR_CART } from '../actions/cart';
+// let initialState = {
+//     orders: [],
+//     cart: {
+//         totalAmount: 0,
+//         totalQuantity: 0,
+//         cartItems: []
+//     }
+// }
+// const cartReducer = (state = initialState, action) => {
+//     switch (action.type) {
+//         case ADD_CART_ITEM:
+//             //checking if item was already in the cart........
+//             const cartItems = state.cart.cartItems;
+//             let product = action.product;
+//             let isItemInCart = cartItems.some(item => item._id === product._id);
+//             console.log('is item in cart ',isItemInCart)
+//             console.log('prev cartItems ', state.cart.cartItems)
+//             let totalAmount;
+//             let totalQuantity;
+//             let newCartItem
+
+//             totalAmount = state.cart.totalAmount + product.price;
+//             totalQuantity = state.cart.totalQuantity + 1;
+
+//             let cartItem = cartItems.find(item => item._id === product._id);
+//             if(cartItem){
+//                 console.log('true')
+//             }else{
+//                 console.log('false')
+//             }
+//             if (cartItem) {
+//                 let itemIndex = cartItems.map((item) => item._id ).indexOf(product._id);
+
+//                newCartItem = {
+//                    ...cartItem,
+//                    quantity: cartItem.quantity + 1,
+//                     amount: cartItem.amount + product.price
+//                 }
+//                 console.log('itemIndex in cartArray ',itemIndex)
+//                 console.log('item in cart ',cartItem);
+//                 console.log('passed_item_id ',product._id)
+//                 console.log('found_item_in_cart_id ',cartItem._id)
+//                 cartItems[itemIndex] = newCartItem
+//                 console.log('newItemsList', cartItems)
+//                 return {
+//                     ...state,
+//                     cart: { totalAmount, totalQuantity, cartItems: cartItems }
+//                 }
+
+//             } else {
+
+//                 newCartItem = {
+//                     _id: product._id,
+//                     quantity: 1,
+//                     amount: product.price,
+//                     price: product.price,
+//                     title: product.title
+//                 }
+//                 console.log('new cart item ',newCartItem)
+//                 cartItems.push(newCartItem);
+//                 console.log('newItemsList',cartItems)
+
+//                 return {
+//                     ...state,
+//                     cart: { totalAmount, totalQuantity, cartItems: cartItems }
+//                 }
+
+//             }
+
+//         case REDUCE_CART_ITEM:
+
+//             let latestItemsList;
+//             let cartProducts = state.cart.cartItems;
+//             let itemInCart = cartProducts.find(item => item._id === action.productId);
+//             console.log('cart_items',cartProducts)
+//             console.log('passed id',action.productId)
+//             console.log('itemInCart',itemInCart)
+//             let totalAmountt = state.cart.totalAmount - itemInCart.price;
+//             let totalQuantityy = state.cart.totalQuantity - 1;
+//             if (itemInCart.quantity > 1) {
+//                 let itemIndex = cartProducts.map(item => item._id).indexOf(action.productId);
+//                 let latestItem = {
+//                     ...itemInCart,
+//                     quantity: itemInCart.quantity - 1,
+//                     amount: itemInCart.amount - itemInCart.price
+//                 }
+//                 cartProducts[itemIndex] = latestItem
+//                 console.log('cartproduct[itemIndex]',cartProducts)
+//                 latestItemsList = cartProducts
+//                 console.log('latestItems list ',latestItemsList)
+
+//             } else {
+//                 latestItemsList = cartProducts.filter(item => item._id !== action.productId);
+
+//             }
+
+//             return {
+//                 ...state,
+//                 cart: { totalAmount: totalAmountt, totalQuantity: totalQuantityy, cartItems: latestItemsList }
+//             }
+
+//         case CLEAR_CART:
+//             return {
+//                ...state,
+//                 cart: {
+//                     totalAmount: 0,
+//                     totalQuantity: 0,
+//                     cartItems: []
+//                 }
+
+//             }
+//         case PLACE_ORDER:
+//             return {
+//                 orders: state.orders.concat([state.cart]), cart: {
+//                     totalAmount: 0,
+//                     totalQuantity: 0,
+//                     cartItems: []
+//                 } }
+
+//         default:
+//             return state;
+//     }
+
+// }
+
+// export default cartReducer;

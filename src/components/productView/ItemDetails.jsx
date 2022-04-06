@@ -7,7 +7,7 @@ const ItemDetails = ({ product }) => {
         {product.title}
       </Typography>
       <Typography variant="h6" gutterBottom sx={{ color: "red" }}>
-        {product.price} <span style={{ color: "black" }}>Tsh</span>
+        {product.price.toLocaleString()} <span style={{ color: "black" }}>Tsh</span>
       </Typography>
       <Rating
         sx={{ display: "block" }}
