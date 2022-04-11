@@ -73,21 +73,21 @@ const ProductView = () => {
     getProductInfo();
   }, [productId]);
 
-  //updating products number of views
-  // useEffect(() => {
-  //   const updateTrendingProducts = async () => {
-  //     try {
-  //       const rs = await axios.patch(`/products/trendingUpdate/${productId}`);
-  //       if (rs.status === 200) {
-  //         const rsData = await rs.data;
-  //         dispatch(setTrendingProducts(rsData.products));
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   updateTrendingProducts();
-  // }, [productId]);
+  // updating products number of views
+  useEffect(() => {
+    const updateTrendingProducts = async () => {
+      try {
+        const rs = await axios.patch(`/products/trendingUpdate/${productId}`);
+        if (rs.status === 200) {
+          const rsData = await rs.data;
+          dispatch(setTrendingProducts(rsData.products));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    updateTrendingProducts();
+  }, [productId]);
   let cartItem;
   if (cartItems.some((item) => item._id === productId)) {
     cartItem = cartItems.find((item) => (item._id === productId));

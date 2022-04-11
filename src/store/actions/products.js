@@ -9,6 +9,7 @@ export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 export const SET_FILTERED_PRODUCTS = 'SET_FILTERED_PRODUCTS';
 export const SET_TRENDING__PRODUCTS = 'SET_TRENDING__PRODUCTS';
+export const SET_WISHLIST = 'SET_WISHLIST';
 
 
 //ACTION CREATORS FOR ADMIN.............................................. 
@@ -127,6 +128,47 @@ export const setTrendingProducts = (payload) => {
         dispatch({
             type: SET_TRENDING__PRODUCTS,
             payload
+        })
+    }
+}
+
+export const getWishlist = ()=>{
+    return async (dispatch)=>{
+
+                    const rs = await secureApi.get(`/wishlist`);
+                    const rsData = rs.data;
+                    let wishlist =    rsData.wishlist.wishlist;
+
+        
+        dispatch({
+            type: SET_WISHLIST,
+            wishlist
+        })
+    }
+}
+
+export const addToWishlist = (data)=>{
+    return async (dispatch)=>{
+
+        const rs = await secureApi.post("/wishlist", data);
+        const rsData = rs.data;
+        const wishlist = rsData.wishlist.wishlist;
+        dispatch({
+            type: SET_WISHLIST,
+            wishlist
+        })
+    }
+}
+
+export const removeFromWishlist = (item_id) => {
+    return async (dispatch) => {
+
+        const rs = await secureApi.patch(`/wishlist/${item_id}`);
+        const rsData = rs.data;
+        const wishlist = rsData.wishlist.wishlist;
+        dispatch({
+            type: SET_WISHLIST,
+            wishlist
         })
     }
 }

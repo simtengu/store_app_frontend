@@ -25,6 +25,7 @@ const Users = () => {
         setUsers(all_users);
         setIsLoading(false);
       } catch (error) {
+        setIsLoading(false);
         console.log(error.message);
       }
     };

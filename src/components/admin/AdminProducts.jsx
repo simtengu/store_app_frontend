@@ -18,8 +18,11 @@ import {
 import { DeleteOutline, Edit } from "@mui/icons-material";
 import HeadingOne from "../HeadingOne";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProduct, fetchSystemProducts } from "../../store/actions/products";
-const AdminProducts = ({ onUpdateProduct }) => {
+import {
+  deleteProduct,
+  fetchSystemProducts,
+} from "../../store/actions/products";
+const AdminProducts = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedProductId, setSelectedProduct] = useState("");
@@ -35,11 +38,15 @@ const AdminProducts = ({ onUpdateProduct }) => {
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
-        alert("something went wrong...try again later");
+        if (error.response.status === 401) {
+          alert("Authentication error....... t");
+        } else {
+          alert("something went wrong...try again later");
+        }
       }
     };
     getProducts();
-  }, [fetchSystemProducts]);
+  }, [systemProducts]);
 
   const handleProductDelete = async () => {
     setIsDialogOpen(false);
@@ -119,7 +126,11 @@ const AdminProducts = ({ onUpdateProduct }) => {
                       </Typography>
                     </CardContent>
                     <CardActions disableSpacing>
-                      <IconButton value='testing value' onClick={()=>onUpdateProduct(product)} aria-label="edit">
+                      <IconButton
+                        value="testing value"
+                        onClick={() => console.log('yeah')}
+                        aria-label="edit"
+                      >
                         <Edit sx={{ color: "#f7bb09" }} />
                       </IconButton>
                       <IconButton

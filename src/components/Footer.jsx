@@ -15,7 +15,7 @@ const Footer = () => {
               >
                 Shop<span style={{ color: "#dd9b00" }}>App</span>
               </Typography>
-              <Typography variant="body1" gutterBottom>
+              <Typography id="body1" variant="body1" gutterBottom>
                 Store app is Lorem ipsum dolor sit amet con harum, earum odit.
                 Minima, repellat?
               </Typography>

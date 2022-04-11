@@ -30,6 +30,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { addCartItem, clearCart, reduceCartItem } from "../store/actions/cart";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../components/ProtectedRoutes";
 
 
 
@@ -39,6 +40,14 @@ const Cart = () => {
     const {
       cart: { totalAmount,totalQuantity,cartItems },
     } = useSelector((state) => state.cart);
+    let authenticated = useAuth();
+    const handleCheckout = ()=>{
+      if (authenticated) {
+        navigate("/checkout");
+      } else {
+        alert("to proceed login first..");
+      }
+    }
   return (
     <>
       <Container sx={{ mb: 5 }}>
@@ -174,7 +183,7 @@ const Cart = () => {
                   </Typography>
 
                   <Button
-                   onClick={()=>navigate('/checkout')}
+                   onClick={handleCheckout}
                     mt={2}
                     sx={{
                       color: "#4b4b4b",

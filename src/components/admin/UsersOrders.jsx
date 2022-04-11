@@ -2,9 +2,7 @@ import {
   Box,
   Button,
   Card,
-  Divider,
   Grid,
-  Paper,
   Skeleton,
   Stack,
   Table,
@@ -33,6 +31,7 @@ const UsersOrders = () => {
         setOrders(all_orders);
         setIsLoading(false);
       } catch (error) {
+        setIsLoading(false);
         console.log(error);
       }
     };
@@ -95,6 +94,7 @@ const UsersOrders = () => {
         >
           <Grid item xs={12} sm={10} md={9}>
             {orders.map((order, index) => {
+                       let date = new Date(order.createdAt);
               return (
                 <Card
                   key={index}
@@ -118,60 +118,72 @@ const UsersOrders = () => {
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
                         >
-                          <TableCell>Jumong korea</TableCell>
-                          <TableCell align="left">11'st june</TableCell>
-                          <TableCell align="left">{order.totalQuantity}</TableCell>
+                          <TableCell>{`${order.owner.firstName} ${order.owner.lastName}`}</TableCell>
+                          <TableCell align="left">{`${date.toDateString()}`}</TableCell>
+                          <TableCell align="left">
+                            {order.totalQuantity}
+                          </TableCell>
                           <TableCell align="left">
                             {order.totalAmount.toLocaleString()}
                           </TableCell>
                           <TableCell align="left">
-                            <Button onClick={()=>{setOpenedOrder(index === openedOrder ? "" : index)}}>view items</Button>
+                            <Button
+                              onClick={() => {
+                                setOpenedOrder(
+                                  index === openedOrder ? "" : index
+                                );
+                              }}
+                            >
+                              view items
+                            </Button>
                           </TableCell>
                         </TableRow>
-                        {index === openedOrder && order.orderItems.map((item, idx) => {
-                          return (
-                            <TableRow key={idx}>
-                              <TableCell>
-                                <img width="70" src={item.image} />
-                              </TableCell>
-                              <TableCell align="left">
-                                <Stack>
-                                  <Typography>Title</Typography>
-                                  <Typography variant="body2">
-                                    {item.title}
-                                  </Typography>
-                                </Stack>
-                              </TableCell>
-                              <TableCell align="left">
-                                <Stack>
-                                  <Typography>Price</Typography>
-                                  <Typography variant="body2">
-                                    {item.price && item.price.toLocaleString()}{" "}
-                                    (Tsh)
-                                  </Typography>
-                                </Stack>
-                              </TableCell>
-                              <TableCell align="left">
-                                <Stack>
-                                  <Typography>Quantity</Typography>
-                                  <Typography variant="body2">
-                                    {item.quantity}
-                                  </Typography>
-                                </Stack>
-                              </TableCell>
-                              <TableCell align="left">
-                                <Stack>
-                                  <Typography>Amount</Typography>
-                                  <Typography variant="body2">
-                                    {item.amount &&
-                                      item.amount.toLocaleString()}{" "}
-                                    (Tsh)
-                                  </Typography>
-                                </Stack>{" "}
-                              </TableCell>
-                            </TableRow>
-                          );
-                        })}
+                        {index === openedOrder &&
+                          order.orderItems.map((item, idx) => {
+                            return (
+                              <TableRow key={idx}>
+                                <TableCell>
+                                  <img width="70" src={item.image} />
+                                </TableCell>
+                                <TableCell align="left">
+                                  <Stack>
+                                    <Typography>Title</Typography>
+                                    <Typography variant="body2">
+                                      {item.title}
+                                    </Typography>
+                                  </Stack>
+                                </TableCell>
+                                <TableCell align="left">
+                                  <Stack>
+                                    <Typography>Price</Typography>
+                                    <Typography variant="body2">
+                                      {item.price &&
+                                        item.price.toLocaleString()}{" "}
+                                      (Tsh)
+                                    </Typography>
+                                  </Stack>
+                                </TableCell>
+                                <TableCell align="left">
+                                  <Stack>
+                                    <Typography>Quantity</Typography>
+                                    <Typography variant="body2">
+                                      {item.quantity}
+                                    </Typography>
+                                  </Stack>
+                                </TableCell>
+                                <TableCell align="left">
+                                  <Stack>
+                                    <Typography>Amount</Typography>
+                                    <Typography variant="body2">
+                                      {item.amount &&
+                                        item.amount.toLocaleString()}{" "}
+                                      (Tsh)
+                                    </Typography>
+                                  </Stack>{" "}
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
                       </TableBody>
                     </Table>
                   </TableContainer>

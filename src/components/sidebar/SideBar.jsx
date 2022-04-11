@@ -48,7 +48,7 @@ const SideBar = () => {
         dispatch(setFilteredProducts(payload));
         navigate("/products/filtered");
       } else {
-        alert("sorry we couldn't find any products for you");
+        alert(`sorry... we couldn't find any products for "${category}" category`);
       }
     } catch (error) {
       console.log(error);
@@ -74,7 +74,7 @@ const SideBar = () => {
         dispatch(setFilteredProducts(payload));
         navigate("/products/filtered");
       } else {
-        alert("sorry we couldn't find any products for you");
+        alert(`sorry.. we couldn't find any products for "${tag}" tag`);
       }
     } catch (error) {
       setIsLoading(false);

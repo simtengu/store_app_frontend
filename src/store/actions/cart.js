@@ -8,7 +8,7 @@ export const addCartItem = (product) => {
     return (dispatch,getState)=>{
        const state = getState();
        const {cartItems} = state.cart.cart;
-       console.log('cart items b4 update.. ',cartItems);
+    //    console.log('cart items b4 update.. ',cartItems);
         dispatch({
             type: ADD_CART_ITEM,
             product

@@ -19,7 +19,8 @@ import { AddAPhoto, Save } from "@mui/icons-material";
 import { tags, categories,brands } from "../../resources/productData";
 import axios from "../../api/secureApi";
 import { update_product } from "../../store/actions/products";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 function SlideTransition(props) {
   return <Slide {...props} direction="up" />;
@@ -28,7 +29,12 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const UpdateProduct = ({ product }) => {
+const UpdateProduct = () => {
+
+
+   const { systemProducts } = useSelector((state) => state.products);
+  let {productId} = useParams();
+  let product  = systemProducts.find(item=>item._id === productId);
   const dispatch = useDispatch();
   let initialProductState = {
     title: product.title,

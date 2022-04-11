@@ -6,10 +6,13 @@ import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Zoom from "@mui/material/Zoom";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
 import {
   AccountCircle,
+  Add,
+  Inbox,
   Mail,
+  People,
   Phone,
   Search,
   ShoppingCart,
@@ -29,6 +32,13 @@ import {
   Toolbar,
   Box,
   AppBar,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Divider,
+  ListItemIcon,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -88,11 +98,17 @@ const ResponsiveAppBar = (props) => {
   } = useSelector((state) => state.cart);
 
   const navigate = useNavigate();
+    let location = useLocation();
+    let path = location.pathname;
+    let pathArray = path.split("/");
+    let final_path = pathArray[1];
+    
 
   const { authUser } = useSelector((state) => state.auth);
 
   //menu section ...........................
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
   const { isSearchDivActive } = useSelector((state) => state.errorAndLoading);
 
   const open = Boolean(anchorEl);
@@ -112,8 +128,8 @@ const ResponsiveAppBar = (props) => {
   };
 
 
+  let user_id = authUser ?  authUser._id : 'kdfkdfdf';
   //logging in the user ............
-
   React.useEffect(() => {
     if (!authUser) {
       const token = localStorage.getItem("store_app_token");
@@ -137,9 +153,58 @@ const ResponsiveAppBar = (props) => {
  
   return (
     <>
-      {isSearchDivActive && (
-        <ProductsSearch />
-      )}
+      <Drawer
+        anchor="left"
+        open={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+      >
+        <Box
+          sx={{ width: { xs: "70vw", sm: "60vw", md: 275 } }}
+          role="presentation"
+          onClick={() => setIsDrawerOpen(false)}
+        >
+          <List sx={{ my: 0, py: 0 }}>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <Inbox />
+                </ListItemIcon>
+                <ListItemText primary="Products" />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <Add />
+                </ListItemIcon>
+                <ListItemText primary="New Product" />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <People />
+                </ListItemIcon>
+                <ListItemText primary="Users" />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <People />
+                </ListItemIcon>
+                <ListItemText primary="Received Orders" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
+
+      {isSearchDivActive && <ProductsSearch />}
 
       <Box sx={{ p: 1, bgcolor: "#343a40" }}>
         <Container>
@@ -150,39 +215,46 @@ const ResponsiveAppBar = (props) => {
                   <Mail sx={{ color: "#dd9b00", fontSize: 16 }} />{" "}
                   albertsimtengu@gmail.com
                 </Typography>
-                <Typography variant="caption" sx={{ color: "#cdcdcd" }}>
+                <Typography variant="caption" sx={{ color: "#cdcdcd",display:{xs:'none',sm:'inline'} }}>
                   <Phone sx={{ color: "#dd9b00", fontSize: 16 }} /> +255
                   710162838
                 </Typography>
               </Stack>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                <Stack direction="row">
-                  <Link
-                    style={{
-                      color: "#bcbcbc",
-                      fontSize: 14,
-                      margin: "0px 7px",
-                    }}
-                    to="/user_account/akd"
-                  >
-                    My Account
-                  </Link>
+            {authUser && (
+              <Grid
+                item
+                xs={12}
+                md={6}
+                sx={{ display: { xs: "none", md: "block" } }}
+              >
+                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Stack direction="row">
+                    <Link
+                      style={{
+                        color: "#bcbcbc",
+                        fontSize: 14,
+                        margin: "0px 7px",
+                      }}
+                      to={`/user_account/${user_id}`}
+                    >
+                      My Account
+                    </Link>
 
-                  <Link
-                    to="/checkout"
-                    style={{
-                      color: "#bcbcbc",
-                      fontSize: 14,
-                      margin: "0px 7px",
-                    }}
-                  >
-                    Checkout
-                  </Link>
-                </Stack>
-              </Box>
-            </Grid>
+                    <Link
+                      to="/checkout"
+                      style={{
+                        color: "#bcbcbc",
+                        fontSize: 14,
+                        margin: "0px 7px",
+                      }}
+                    >
+                      Checkout
+                    </Link>
+                  </Stack>
+                </Box>
+              </Grid>
+            )}
           </Grid>
         </Container>
       </Box>
@@ -205,12 +277,17 @@ const ResponsiveAppBar = (props) => {
             </Box>
 
             <Box>
+              <Box sx={{ display: { xs: "inline",sm: "none" },mr:1 }}>
+                <IconButton style={{color:'white'}} onClick={() => dispatch(openSearchDiv())}>
+                  <Search />
+                </IconButton>
+              </Box>
               <Box
                 sx={{
                   p: 1,
                   backgroundColor: "rgba(231,231,231,0.1)",
                   borderRadius: 2,
-                  display: "inline",
+                  display: { xs: "none", sm: "inline" },
                   mr: 2,
                 }}
               >
@@ -218,12 +295,12 @@ const ResponsiveAppBar = (props) => {
                 <InputBase
                   variant="standard"
                   placeholder="search..."
-                  sx={{ color: "whitesmoke", width: { xs: 100, md: 250 } }}
+                  sx={{ color: "whitesmoke", width: { xs: 50, md: 250 } }}
                   onFocus={() => dispatch(openSearchDiv())}
                 />
               </Box>
               <Box sx={{ display: { xs: "none", md: "inline" } }}>
-                <Link to="/user_account/akd">
+                <Link to="/wishlist">
                   <IconButton>
                     <StarBorder sx={{ color: "#bcbcbc" }} />
                   </IconButton>
@@ -313,6 +390,7 @@ const ResponsiveAppBar = (props) => {
                 color="inherit"
                 aria-label="menu"
                 sx={{ display: { md: "none" } }}
+                onClick={() => setIsDrawerOpen(true)}
               >
                 <MenuIcon />
               </IconButton>

@@ -48,7 +48,7 @@ const Login = ({ changeActiveForm }) => {
       setLoading(false);
       if (response.status === 200) {
         console.log(response);
-        const { token, user } = response.data;
+        const { token, user } = await response.data;
         localStorage.setItem("store_app_token", token);
         dispatch(setAuthUser(user));
         navigate(`/user_account/${user.email}`, { replace: true });

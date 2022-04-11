@@ -19,21 +19,21 @@ const cartReducer = (state = initialState, action) => {
                                               : new CartItem( action.product._id, 1, action.product.price, action.product.price,
                                                                action.product.title,action.product.images[0]
                 );
-            console.log('passed item .. ', action.product)
-            console.log('passed items id',action.product._id)
-            console.log('item in cart ..', inCartItem)
+            // console.log('passed item .. ', action.product)
+            // console.log('passed items id',action.product._id)
+            // console.log('item in cart ..', inCartItem)
                 if(inCartItem){
-                    console.log('the item is in the cart.......')
+                    // console.log('the item is in the cart.......')
            
                     let itemIndex = itemsInCart.findIndex(item=>item._id === action.product._id);
                     
-                    console.log('item incart index ',itemIndex)
+                    // console.log('item incart index ',itemIndex)
                     itemsInCart[itemIndex] = newOrUpdatedItem;
                    // console.log('itemsInCart[itemIndex]', itemsInCart[itemIndex]);
                      
                     // console.log('items in cart updated ',itemsInCart)
                     let inCartIds = itemsInCart.map(item=>item._id);
-                    console.log('in cart ids ',inCartIds)
+                    // console.log('in cart ids ',inCartIds)
                     return {
                             ...state,
                             cart: {
@@ -44,10 +44,10 @@ const cartReducer = (state = initialState, action) => {
                             }
                             
                         }else{
-                            console.log('item not in cart....');
+                       
                             itemsInCart.push(newOrUpdatedItem)
                             let inCartIds = itemsInCart.map(item=>item._id);
-                            console.log('in cart ids after update.. ',inCartIds)
+                            // console.log('in cart ids after update.. ',inCartIds)
 
 
                     return {
@@ -65,9 +65,9 @@ const cartReducer = (state = initialState, action) => {
         case REDUCE_CART_ITEM:
             let cartProducts = state.cart.cartItems;
             let itemInCart = cartProducts.find(item => item._id === action.productId);
-            console.log('cart_items', cartProducts)
-            console.log('passed id', action.productId)
-            console.log('itemInCart', itemInCart)
+            // console.log('cart_items', cartProducts)
+            // console.log('passed id', action.productId)
+            // console.log('itemInCart', itemInCart)
             let totalAmountt = state.cart.totalAmount - itemInCart.price;
             let totalQuantityy = state.cart.totalQuantity - 1;
             if (itemInCart.quantity > 1) {
@@ -75,7 +75,7 @@ const cartReducer = (state = initialState, action) => {
                 let latestItem = new CartItem(itemInCart._id, itemInCart.quantity - 1, itemInCart.amount - itemInCart.price,itemInCart.price,itemInCart.title,itemInCart.image); 
 
                 cartProducts[itemIndex] = latestItem
-                console.log('cartproduct[itemIndex]', cartProducts)
+                // console.log('cartproduct[itemIndex]', cartProducts)
           
                 return {
                     ...state,

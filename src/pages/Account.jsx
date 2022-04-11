@@ -22,33 +22,27 @@ import AdminProducts from "../components/admin/AdminProducts";
 import NewProduct from "../components/admin/NewProduct";
 import Users from "../components/admin/Users";
 import UsersOrders from "../components/admin/UsersOrders";
-import AdminInbox from "../components/admin/AdminInbox";
-import Wishlist from "../components/user/Wishlist";
 import UserOrders from "../components/user/UserOrders";
 import UpdateDetails from "../components/user/UpdateDetails";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { unSetAuthUser } from "../store/actions/auth";
 import UpdateProduct from "../components/admin/UpdateProduct";
+import WishlistSection from "../components/user/WishlistSection";
 const Account = () => {
 
-  const [activeSection, setActiveSection] = useState("products");
-  const [selectedProduct, setSelectedProduct] = useState({});
   const { authUser } = useSelector((state) => state.auth);
+  const [selectedProduct, setSelectedProduct] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  
-  //checking loggedIn user role...........
-  useEffect(() => {
-    if (authUser) {
-      if (!authUser.isAdmin) {
-        setActiveSection("wishlist");
-      }
-    } else {
-      navigate("/", { replace: true });
-    }
-  }, [authUser]);
+  let initialActiveSection = "wishlist";
+  if(authUser){
+    
+    initialActiveSection = authUser.isAdmin ? "products" : "wishlist";
+  }
+  const [activeSection, setActiveSection] = useState(initialActiveSection);
+
 
   //logout...........
   const handleLogOut = () => {
@@ -86,7 +80,9 @@ const Account = () => {
                 <List sx={{ my: 0, py: 0 }}>
                   <ListItem disablePadding>
                     <ListItemButton
-                      onClick={() => setActiveSection("products")}
+                      onClick={() =>
+                        navigate(`/user_account/${authUser.email}`)
+                      }
                     >
                       <ListItemIcon>
                         <Inbox />
@@ -97,7 +93,7 @@ const Account = () => {
                   <Divider />
                   <ListItem disablePadding>
                     <ListItemButton
-                      onClick={() => setActiveSection("new_product")}
+                      onClick={() => navigate("/user_account/new_product")}
                     >
                       <ListItemIcon>
                         <Add />
@@ -107,7 +103,9 @@ const Account = () => {
                   </ListItem>
                   <Divider />
                   <ListItem disablePadding>
-                    <ListItemButton onClick={() => setActiveSection("users")}>
+                    <ListItemButton
+                      onClick={() => navigate("/user_account/users")}
+                    >
                       <ListItemIcon>
                         <People />
                       </ListItemIcon>
@@ -118,21 +116,12 @@ const Account = () => {
 
                   <ListItem disablePadding>
                     <ListItemButton
-                      onClick={() => setActiveSection("users_orders")}
+                      onClick={() => navigate("/user_account/users_orders")}
                     >
                       <ListItemIcon>
                         <People />
                       </ListItemIcon>
                       <ListItemText primary="Received Orders" />
-                    </ListItemButton>
-                  </ListItem>
-                  <Divider />
-                  <ListItem disablePadding>
-                    <ListItemButton onClick={() => setActiveSection("inbox")}>
-                      <ListItemIcon>
-                        <Inbox />
-                      </ListItemIcon>
-                      <ListItemText primary="Inbox" />
                     </ListItemButton>
                   </ListItem>
                 </List>
@@ -141,7 +130,9 @@ const Account = () => {
                   <Divider />
                   <ListItem disablePadding>
                     <ListItemButton
-                      onClick={() => setActiveSection("wishlist")}
+                      onClick={() =>
+                        navigate(`/user_account/${authUser.email}`)
+                      }
                     >
                       <ListItemIcon>
                         <Star />
@@ -154,7 +145,7 @@ const Account = () => {
                   <Divider />
                   <ListItem disablePadding>
                     <ListItemButton
-                      onClick={() => setActiveSection("user_orders")}
+                      onClick={() => navigate("/user_account/user_orders")}
                     >
                       <ListItemIcon>
                         <TableBar />
@@ -171,7 +162,7 @@ const Account = () => {
 
                 <ListItem disablePadding>
                   <ListItemButton
-                    onClick={() => setActiveSection("update_details")}
+                    onClick={() => navigate(`/user_account/update_details`)}
                   >
                     <ListItemIcon>
                       <Update />
@@ -195,27 +186,7 @@ const Account = () => {
         </Grid>
         <Grid item xs={12} md={9}>
           <Box p={2}>
-            {activeSection === "products" ? (
-              <AdminProducts onUpdateProduct={handleUpdateProduct} />
-            ) : (
-              ""
-            )}
-            {activeSection === "update_product" ? (
-              <UpdateProduct product={selectedProduct} />
-            ) : (
-              ""
-            )}
-            {activeSection === "new_product" ? <NewProduct /> : ""}
-            {activeSection === "users" ? <Users /> : ""}
-            {activeSection === "users_orders" ? <UsersOrders /> : ""}
-            {activeSection === "inbox" ? <AdminInbox /> : ""}
-            {activeSection === "wishlist" ? <Wishlist /> : ""}
-            {activeSection === "user_orders" ? <UserOrders /> : ""}
-            {activeSection === "update_details" ? (
-              <UpdateDetails user={authUser} />
-            ) : (
-              ""
-            )}
+            <Outlet />
           </Box>
         </Grid>
       </Grid>

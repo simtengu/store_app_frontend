@@ -24,8 +24,10 @@ import {
 } from "../../store/actions/errorAndLoading";
 import {updateUser} from "../../store/actions/auth"
 import { useDispatch, useSelector } from "react-redux";
-const UpdateDetails = ({user}) => {
+const UpdateDetails = () => {
 
+   const { authUser } = useSelector((state) => state.auth);
+   let user = authUser || {};
   const reducer = (state, action) => {
     switch (action.type) {
       case "setFirstName":

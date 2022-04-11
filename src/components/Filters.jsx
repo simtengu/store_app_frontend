@@ -121,7 +121,10 @@ const Filters = (props) => {
       const rsData = await rs.data;
       const foundProducts = rsData.products;
       setIsLoading(false);
-
+      if (foundProducts.length < 1) {
+        alert("no products were found ");
+        return;
+      }
       const payload = {
         products: foundProducts,
         category: {

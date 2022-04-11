@@ -18,10 +18,19 @@ import {
   Select,
   MenuItem,
   Button,
+  Snackbar,
+  Alert as MuiAlert,
+  Backdrop,
+  CircularProgress
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { submitOrder } from "../store/actions/cart";
+
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -35,14 +44,46 @@ const Checkout = () => {
   const [country, setCountry] = useState("Tanzania");
   const [town, setTown] = useState("");
   const [adress, setAdress] = useState("");
+
+  const [isLoading,setIsLoading] = useState(false);
+
+    const [feedback, setFeedback] = useState({
+      message: "",
+      status: "error",
+      isActive: false,
+    });
+
   const handleOrderSubmit = async () => {
+    if (cart.cartItems.length < 1) {
+            setFeedback({
+              message: "Please make sure you have atleast one item in your cart",
+              status: "error",
+              isActive: true,
+            });
+      return;
+    }
     try {
-     await dispatch(submitOrder())
-      
+      setIsLoading(true)
+      await dispatch(submitOrder());
+      setIsLoading(false)
+      setFeedback({
+        message:
+        "Your order was received successfully.",
+        status: "success",
+        isActive: true,
+      });
     } catch (error) {
-      console.log(error)
+      setIsLoading(false)
+                 setFeedback({
+                   message:
+                     "Something went wrong ...try again later",
+                   status: "error",
+                   isActive: true,
+                 });
+      console.log(error);
     }
   };
+
   useEffect(() => {
     if (!authUser) {
       navigate("/");
@@ -51,6 +92,31 @@ const Checkout = () => {
   if (authUser) {
     return (
       <>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isLoading}
+          onClick={() => setIsLoading(false)}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+
+        <Snackbar
+          open={feedback.isActive}
+          autoHideDuration={4000}
+          onClose={() => setFeedback({ ...feedback, isActive: false })}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+        >
+          <Alert
+            onClose={() => setFeedback({ ...feedback, isActive: false })}
+            severity={feedback.status}
+            sx={{ width: "100%" }}
+          >
+            {feedback.message}
+          </Alert>
+        </Snackbar>
         <Container sx={{ mb: 5 }}>
           <Box sx={{ py: 1, px: 2, my: 2, bgcolor: "#eef1f2" }}>
             <Breadcrumbs aria-label="breadcrumb">
@@ -197,7 +263,7 @@ const Checkout = () => {
                       Your Order
                     </Typography>
                     <Box sx={{ p: 1 }}>
-                      <TableContainer component={Paper}>
+                      <TableContainer component={Box}>
                         <Table aria-label="simple table">
                           <TableHead>
                             <TableRow>
