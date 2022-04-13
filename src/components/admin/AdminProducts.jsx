@@ -46,7 +46,7 @@ const AdminProducts = () => {
       }
     };
     getProducts();
-  }, [systemProducts]);
+  }, []);
 
   const handleProductDelete = async () => {
     setIsDialogOpen(false);

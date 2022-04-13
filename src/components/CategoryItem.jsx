@@ -1,4 +1,4 @@
-import { Box, Grid, Paper } from '@mui/material';
+import { Box, Grid, Paper, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -48,7 +48,7 @@ const CategoryItem = ({img,title}) => {
               <img style={{ width: "100%" }} src={img} alt="pc img" />
             </Paper>
             <Paper sx={{ p: 2 }}>
-              <h6 className="text-primary mt-3">{title}</h6>
+              <Typography sx={{mt:3}}  color="primary">{title}</Typography>
             </Paper>
           </Box>
         </Grid>

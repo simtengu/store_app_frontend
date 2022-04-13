@@ -102,6 +102,7 @@ const SideBar = () => {
           p: "2px 4px",
           display: "flex",
           alignItems: "center",
+          mt:{xs:4,md:0}
         }}
       >
         <InputBase

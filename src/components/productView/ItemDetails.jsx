@@ -10,9 +10,7 @@ const ItemDetails = ({ product }) => {
         {product.price.toLocaleString()} <span style={{ color: "black" }}>Tsh</span>
       </Typography>
       <Rating
-        sx={{ display: "block" }}
         size="small"
-        name="simple-controlled"
         value={5}
       />
       <Typography variant="body1" gutterBottom>

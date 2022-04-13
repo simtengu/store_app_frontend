@@ -22,7 +22,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addCartItem } from "../store/actions/cart";
-import secureApi from "../api/secureApi";
 import { addToWishlist } from "../store/actions/products";
 
 const Alert = React.forwardRef(function Alert(props, ref) {

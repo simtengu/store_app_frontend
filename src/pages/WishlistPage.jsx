@@ -9,7 +9,7 @@ const WishlistPage = () => {
       <Container sx={{ mb: 5 }}>
         <Box sx={{ py: 1, px: 2, my: 2, bgcolor: "#eef1f2", mx: { md: 3 } }}>
           <Breadcrumbs aria-label="breadcrumb">
-            <Link style={{ color: "#4b4b4b" }} to="/">
+            <Link className="normalLink" style={{ color: "#4b4b4b" }} to="/">
               Home
             </Link>
             <span>wishlist</span>

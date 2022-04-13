@@ -24,9 +24,11 @@ import Users from './components/admin/Users';
 import UsersOrders from './components/admin/UsersOrders';
 import UserOrders from './components/user/UserOrders';
 import UpdateDetails from './components/user/UpdateDetails';
+import { useSelector } from 'react-redux';
 const App = () => {
   // const user_token = localStorage.getItem('store_app_token');
   const dispatch = useDispatch();
+  const { authUser } = useSelector((state) => state.auth);
   useEffect(() => {
     const getTrendingProducts = async () => {
       try {
@@ -49,7 +51,10 @@ const App = () => {
         console.log(error)
       }
     }
-    fetchWishlist()
+    if (authUser) {
+      fetchWishlist()
+      
+    }
 
   }, [])
 

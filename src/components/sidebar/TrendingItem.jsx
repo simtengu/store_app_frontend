@@ -6,7 +6,7 @@ const TrendingItem = ({ product }) => {
   return (
     <>
       <Grid item xs={12} >
-        <Link id="productLink" to={`/product_details/${_id}`}>
+        <Link className="normalLink" to={`/product_details/${_id}`}>
           <Paper elevation={3}>
             <Grid container>
               <Grid item xs={4}>

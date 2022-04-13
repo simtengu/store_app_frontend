@@ -28,33 +28,43 @@ const Footer = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <div className="links">
-                <h5>Important Links</h5>
+                <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                  Important Links
+                </Typography>
                 <ul>
-                  <li>home</li>
-                  <li>accounts</li>
-                  <li>contact us</li>
+                  <li>Home</li>
+                  <li>Cart</li>
+                  <li>Checkout</li>
+                  <li>Wishlist</li>
                 </ul>
               </div>
             </Grid>
 
             <Grid item xs={12} sm={6} md={3}>
               <div className="links">
-                <h5>My Account</h5>
+                <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                  My Account
+                </Typography>
                 <ul>
-                  <li>home</li>
-                  <li>accounts</li>
-                  <li>contact us</li>
+                  <li>Profile</li>
+                  <li>Orders</li>
+                  <li>Wishlist</li>
+                  <li>Reports</li>
                 </ul>
               </div>
             </Grid>
 
             <Grid item xs={12} sm={6} md={3}>
               <div className="links">
-                <h5>Categories</h5>
+         
+                <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                  Categories
+                </Typography>
                 <ul>
-                  <li>home</li>
-                  <li>accounts</li>
-                  <li>contact us</li>
+                  <li>Phones</li>
+                  <li>Computers</li>
+                  <li>Health/Beauty</li>
+                  <li>Clothes</li>
                 </ul>
               </div>
             </Grid>

@@ -12,14 +12,19 @@ const Subscribe = () => {
                 width: "100%",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: 'center'
+                justifyContent: "center",
               }}
             >
-              <MailOutline sx={{color:"white",fontSize:28,mr:1}} />
+              <MailOutline sx={{ color: "white", fontSize: 28, mr: 1 }} />
               <Typography
                 color="white"
                 variant="h6"
-                sx={{ textTransform: "uppercase", p: 0, m: 0,fontSize:{xs:15,sm:23} }}
+                sx={{
+                  textTransform: "uppercase",
+                  p: 0,
+                  m: 0,
+                  fontSize: { xs: 15, sm: 23 },
+                }}
               >
                 Subscribe to our newsletter
               </Typography>
@@ -35,8 +40,14 @@ const Subscribe = () => {
               }}
               className="subscribeForm"
             >
-              <input type="email" placeholder="enter your email" />
-              <button>subscribe</button>
+              <input
+                type="email"
+                style={{ fontFamily: "roboto", fontSize: 16 }}
+                placeholder="enter your email"
+              />
+              <button style={{ fontFamily: "roboto", fontSize: 16 }}>
+                subscribe
+              </button>
             </div>
           </Grid>
         </Grid>

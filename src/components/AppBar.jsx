@@ -6,13 +6,10 @@ import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Zoom from "@mui/material/Zoom";
-import { Link, useNavigate,useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   AccountCircle,
-  Add,
-  Inbox,
   Mail,
-  People,
   Phone,
   Search,
   ShoppingCart,
@@ -32,13 +29,6 @@ import {
   Toolbar,
   Box,
   AppBar,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Divider,
-  ListItemIcon,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -47,10 +37,9 @@ import {
 } from "../store/actions/authForms";
 import { setAuthUser, unSetAuthUser } from "../store/actions/auth";
 import axios from "../api/secureApi";
-import {
-  openSearchDiv
-} from "../store/actions/errorAndLoading";
+import { openSearchDiv } from "../store/actions/errorAndLoading";
 import ProductsSearch from "./ProductsSearch";
+import AppDrawer from "./AppDrawer";
 
 //end of scroll to top
 //scroll to top component.......................................
@@ -98,12 +87,6 @@ const ResponsiveAppBar = (props) => {
   } = useSelector((state) => state.cart);
 
   const navigate = useNavigate();
-    let location = useLocation();
-    let path = location.pathname;
-    let pathArray = path.split("/");
-    let final_path = pathArray[1];
-    
-
   const { authUser } = useSelector((state) => state.auth);
 
   //menu section ...........................
@@ -127,8 +110,7 @@ const ResponsiveAppBar = (props) => {
     navigate("/", { replace: true });
   };
 
-
-  let user_id = authUser ?  authUser._id : 'kdfkdfdf';
+  let user_id = authUser ? authUser._id : "kdfkdfdf";
   //logging in the user ............
   React.useEffect(() => {
     if (!authUser) {
@@ -150,59 +132,15 @@ const ResponsiveAppBar = (props) => {
       }
     }
   }, []);
- 
+
   return (
     <>
-      <Drawer
-        anchor="left"
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-      >
-        <Box
-          sx={{ width: { xs: "70vw", sm: "60vw", md: 275 } }}
-          role="presentation"
-          onClick={() => setIsDrawerOpen(false)}
-        >
-          <List sx={{ my: 0, py: 0 }}>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <Inbox />
-                </ListItemIcon>
-                <ListItemText primary="Products" />
-              </ListItemButton>
-            </ListItem>
-            <Divider />
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <Add />
-                </ListItemIcon>
-                <ListItemText primary="New Product" />
-              </ListItemButton>
-            </ListItem>
-            <Divider />
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <People />
-                </ListItemIcon>
-                <ListItemText primary="Users" />
-              </ListItemButton>
-            </ListItem>
-            <Divider />
-
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <People />
-                </ListItemIcon>
-                <ListItemText primary="Received Orders" />
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </Box>
-      </Drawer>
+      <AppDrawer
+        isDrawerOpen={isDrawerOpen}
+        onCloseDrawer={() => setIsDrawerOpen(false)}
+        totalCartItems={totalQuantity}
+        onLogout={handleLogOut}
+      />
 
       {isSearchDivActive && <ProductsSearch />}
 
@@ -210,15 +148,33 @@ const ResponsiveAppBar = (props) => {
         <Container>
           <Grid container spacing={4}>
             <Grid item xs={12} md={6}>
-              <Stack direction="row" spacing={1}>
-                <Typography variant="caption" sx={{ color: "#cdcdcd" }}>
-                  <Mail sx={{ color: "#dd9b00", fontSize: 16 }} />{" "}
-                  albertsimtengu@gmail.com
-                </Typography>
-                <Typography variant="caption" sx={{ color: "#cdcdcd",display:{xs:'none',sm:'inline'} }}>
-                  <Phone sx={{ color: "#dd9b00", fontSize: 16 }} /> +255
-                  710162838
-                </Typography>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Mail sx={{ color: "#dd9b00", fontSize: 16, mr: 0.5 }} />{" "}
+                  <Typography variant="caption" sx={{ color: "#cdcdcd" }}>
+                    albertsimtengu@gmail.com
+                  </Typography>
+                </Box>
+
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Phone
+                    sx={{
+                      color: "#dd9b00",
+                      fontSize: 16,
+                      mr: 0.5,
+                      display: { xs: "none", sm: "inline" },
+                    }}
+                  />{" "}
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: "#cdcdcd",
+                      display: { xs: "none", sm: "inline" },
+                    }}
+                  >
+                    +255 710162838
+                  </Typography>
+                </Box>
               </Stack>
             </Grid>
             {authUser && (
@@ -229,19 +185,32 @@ const ResponsiveAppBar = (props) => {
                 sx={{ display: { xs: "none", md: "block" } }}
               >
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                  <Stack direction="row">
+                  <Stack direction="row" alignItems="center">
+                    <p
+                      style={{
+                        color: "#bcbcbc",
+                        marginBottom: 0,
+                        marginRight: 4,
+                        marginTop: 0,
+                      }}
+                    >
+                      <span style={{ color: "#dd9b00" }}>Hi</span>{" "}
+                      {authUser.firstName}
+                    </p>
                     <Link
+                      className="normalLink"
                       style={{
                         color: "#bcbcbc",
                         fontSize: 14,
-                        margin: "0px 7px",
+                        margin: "0px 7px 0px 14px",
                       }}
-                      to={`/user_account/${user_id}`}
+                      to={`/user_account/${authUser.email}`}
                     >
                       My Account
                     </Link>
 
                     <Link
+                      className="normalLink"
                       to="/checkout"
                       style={{
                         color: "#bcbcbc",
@@ -277,8 +246,11 @@ const ResponsiveAppBar = (props) => {
             </Box>
 
             <Box>
-              <Box sx={{ display: { xs: "inline",sm: "none" },mr:1 }}>
-                <IconButton style={{color:'white'}} onClick={() => dispatch(openSearchDiv())}>
+              <Box sx={{ display: { xs: "inline", sm: "none" }, mr: 1 }}>
+                <IconButton
+                  style={{ color: "white" }}
+                  onClick={() => dispatch(openSearchDiv())}
+                >
                   <Search />
                 </IconButton>
               </Box>
@@ -291,7 +263,9 @@ const ResponsiveAppBar = (props) => {
                   mr: 2,
                 }}
               >
-                <Search sx={{ mx: 1 }} />
+                <IconButton>
+                  <Search sx={{ mx: 1, color: "#d4d4d4" }} />
+                </IconButton>
                 <InputBase
                   variant="standard"
                   placeholder="search..."

@@ -75,7 +75,7 @@ const Account = () => {
               boxShadow: "1px 1px 3px grey",
             }}
           >
-            <nav aria-label="main mailbox folders">
+            <nav>
               {authUser && authUser.isAdmin ? (
                 <List sx={{ my: 0, py: 0 }}>
                   <ListItem disablePadding>
@@ -119,7 +119,7 @@ const Account = () => {
                       onClick={() => navigate("/user_account/users_orders")}
                     >
                       <ListItemIcon>
-                        <People />
+                        <TableBar />
                       </ListItemIcon>
                       <ListItemText primary="Received Orders" />
                     </ListItemButton>

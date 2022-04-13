@@ -86,7 +86,7 @@ const UserOrders = () => {
 
   return (
     <>
-      <HeadingOne title="Recieved Orders" />
+      <HeadingOne title="My Orders" />
       {orders.length > 0 ? (
         <Grid
           container

@@ -433,7 +433,12 @@ const Filters = (props) => {
                 </Typography>
               </div>
               <div>
-                <select value={orderBy} name="orderBy" onChange={handleOrderBy}>
+                <select
+                  style={{ fontSize: 15, fontFamily: "roboto" }}
+                  value={orderBy}
+                  name="orderBy"
+                  onChange={handleOrderBy}
+                >
                   {orderBys.map((order, index) => {
                     return (
                       <option key={index} value={order}>
@@ -446,7 +451,10 @@ const Filters = (props) => {
             </Stack>
           </Box>
           <Box id="filtersBtnDiv">
-            <button onClick={() => setIsDialogOpen(true)}>
+            <button
+              style={{ fontSize: 15, fontFamily: "roboto" }}
+              onClick={() => setIsDialogOpen(true)}
+            >
               Filter Products
             </button>
           </Box>

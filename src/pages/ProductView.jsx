@@ -9,9 +9,11 @@ import {
   Grid,
   IconButton,
   Paper,
+  Snackbar,
   Stack,
   Tooltip,
   Typography,
+  Alert as MuiAlert,
 } from "@mui/material";
 import SideBar from "../components/sidebar/SideBar";
 import {
@@ -25,21 +27,34 @@ import Product from "../components/Product";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addToWishlist,
   assignSelectedProduct,
   setTrendingProducts,
 } from "../store/actions/products";
 import ItemDetails from "../components/productView/ItemDetails";
 import axios from "../api";
 import { addCartItem, reduceCartItem } from "../store/actions/cart";
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const ProductView = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id: productId } = useParams();
-  // const { selectedProduct } = useSelector((state) => state.products);
-  // const { product, relatedProducts } = selectedProduct;
+  const { wishlist } = useSelector((state) => state.products);
+
+  const userWishlist = wishlist || [];
   const {
     cart: { cartItems },
   } = useSelector((state) => state.cart);
+  
+  const { authUser } = useSelector((state) => state.auth);
+  //handling response state(feedback)........
+  const [feedback, setFeedback] = useState({
+    message: "",
+    status: "error",
+    isActive: false,
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [activeImg, setActiveImg] = useState(0);
   const [product, setProduct] = useState({});
@@ -47,24 +62,56 @@ const ProductView = () => {
   const handleSetImg = (index) => {
     setActiveImg(index);
   };
+
+  const handleAddToWishlist = async () => {
+    if (!authUser) {
+      setFeedback({
+        message: "you need to login first.",
+        status: "error",
+        isActive: true,
+      });
+      return;
+    }
+
+    let itemInfo = {
+      title: product.title,
+      category: product.category,
+      brand: product.brand,
+      _id: product._id,
+      price: product.price,
+      image: product.images[0],
+    };
+
+    try {
+      await dispatch(addToWishlist(itemInfo));
+
+      setFeedback({
+        message: "Item successfully added to your wishlist",
+        status: "success",
+        isActive: true,
+      });
+    } catch (error) {
+      console.log(error);
+      setFeedback({
+        message: "we couldn't add the item to your wishlist .. try again later",
+        status: "error",
+        isActive: true,
+      });
+    }
+  };
+
   useEffect(() => {
     const getProductInfo = async () => {
       try {
         setIsLoading(true);
-          const rs = await axios.get(`/products/related/${productId}`);
-          const rsData = rs.data;
-          setProduct(rsData.product)
-          setRelatedProducts(rsData.relatedProducts)
-          // dispatch({
-          //   type: SET_SELECTED_PRODUCT,
-          //   payload: {
-          //     selectedProduct: rsData.product,
-          //     relatedProducts: rsData.relatedProducts,
-          //   },
-          // });
+        const rs = await axios.get(`/products/related/${productId}`);
+        const rsData = rs.data;
+        setProduct(rsData.product);
+        setRelatedProducts(rsData.relatedProducts);
+
         setIsLoading(false);
       } catch (error) {
-        //setIsLoading(false);
+        setIsLoading(false);
         console.log(error);
         navigate("/", { replace: true });
       }
@@ -90,16 +137,16 @@ const ProductView = () => {
   }, [productId]);
   let cartItem;
   if (cartItems.some((item) => item._id === productId)) {
-    cartItem = cartItems.find((item) => (item._id === productId));
+    cartItem = cartItems.find((item) => item._id === productId);
   }
 
-  const handleAddCartItem = ()=>{
-    dispatch(addCartItem(product))
-  }
+  const handleAddCartItem = () => {
+    dispatch(addCartItem(product));
+  };
 
-    const handleRemoveCartItem = () => {
-      dispatch(reduceCartItem(productId));
-    };
+  const handleRemoveCartItem = () => {
+    dispatch(reduceCartItem(productId));
+  };
 
   if (isLoading) {
     return (
@@ -119,6 +166,23 @@ const ProductView = () => {
 
   return (
     <>
+      <Snackbar
+        open={feedback.isActive}
+        autoHideDuration={4000}
+        onClose={() => setFeedback({ ...feedback, isActive: false })}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <Alert
+          onClose={() => setFeedback({ ...feedback, isActive: false })}
+          severity={feedback.status}
+          sx={{ width: "100%" }}
+        >
+          {feedback.message}
+        </Alert>
+      </Snackbar>
       <Container sx={{ mb: 5 }}>
         <Box sx={{ py: 1, px: 2, my: 2, bgcolor: "#eef1f2" }}>
           <Breadcrumbs aria-label="breadcrumb">
@@ -208,11 +272,32 @@ const ProductView = () => {
                       divider={<Divider orientation="vertical" flexItem />}
                       spacing={2}
                     >
-                      <Tooltip title="Add To Wishlist" placement="top" arrow>
-                        <IconButton sx={{ color: "#a0b3b8" }}>
-                          <Star />
-                        </IconButton>
-                      </Tooltip>
+                      {userWishlist.some((item) => item._id === productId) ? (
+                        <Tooltip title="Go To Wishlist" placement="top" arrow>
+                          <IconButton
+                            sx={{ color: "green" }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate("/wishlist");
+                            }}
+                            aria-label="add to favorites"
+                          >
+                            <Star />
+                          </IconButton>
+                        </Tooltip>
+                      ) : (
+                        <Tooltip title="Add To Wishlist" placement="top" arrow>
+                          <IconButton
+                            onClick={handleAddToWishlist}
+                        
+                            sx={{ color: "#a0b3b8" }}
+                          >
+                            <Star />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                
+
                       <Tooltip title="Share This Product" placement="top" arrow>
                         <IconButton sx={{ color: "#a0b3b8" }}>
                           <Share />

@@ -120,7 +120,7 @@ const Checkout = () => {
         <Container sx={{ mb: 5 }}>
           <Box sx={{ py: 1, px: 2, my: 2, bgcolor: "#eef1f2" }}>
             <Breadcrumbs aria-label="breadcrumb">
-              <Link style={{ color: "#808080" }} to="/">
+              <Link className="normalLink" style={{ color: "#808080" }} to="/">
                 Home
               </Link>
               <span>Checkout</span>

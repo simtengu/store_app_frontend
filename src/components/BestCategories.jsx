@@ -1,21 +1,7 @@
 
 import {
-  Button,
-  Card,
-  CardActions,
-  CardMedia,
-  Container,
   Grid,
-  Paper,
-  Box,
-  IconButton,
-  Divider,
-  InputBase,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Slider
+
 } from "@mui/material";
 import * as React from "react";
 import computer from "../images/lenovo.jpg";

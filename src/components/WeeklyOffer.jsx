@@ -29,19 +29,19 @@ const WeeklyOffer = () => {
 
   const { products } = useSelector((state) => state.products.products);
   const { cartItems } = useSelector((state) => state.cart.cart);
-  let newPrice = 444;
-  let product = {
+  let product = products && products.length > 0 ? products[1] :  {
     title: "samsung 4",
     price: "500000",
     description: "the best in town at the moment",
     category: "the best category for the best phone",
     images: ["http://localhost:5000/uploads/83830033.jpg"],
   };
-  let index = products.length - 1;
-  if (products.length > 0) {
-    product = products[index];
-    newPrice = product.price - Math.ceil((30 / 100) * product.price);
-  }
+
+  let newPrice = products && products.length > 0 ? product.price - Math.ceil((30 / 100) * product.price) : 444;
+  // let index = products.length - 1;
+  // if (products.length > 0) {
+  //   product = products[index];
+  // }
 
     const { title,description,category, price, images, _id: id } = product;
 
