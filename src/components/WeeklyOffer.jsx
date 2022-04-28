@@ -29,7 +29,7 @@ const WeeklyOffer = () => {
 
   const { products } = useSelector((state) => state.products.products);
   const { cartItems } = useSelector((state) => state.cart.cart);
-  let product = products && products.length > 0 ? products[1] :  {
+  let product = products && products.length > 0 ? products[0] :  {
     title: "samsung 4",
     price: "500000",
     description: "the best in town at the moment",

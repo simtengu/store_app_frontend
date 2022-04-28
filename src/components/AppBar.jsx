@@ -110,7 +110,7 @@ const ResponsiveAppBar = (props) => {
     navigate("/", { replace: true });
   };
 
-  let user_id = authUser ? authUser._id : "kdfkdfdf";
+  // let user_id = authUser ? authUser._id : "kdfkdfdf";
   //logging in the user ............
   React.useEffect(() => {
     if (!authUser) {
@@ -126,12 +126,12 @@ const ResponsiveAppBar = (props) => {
         try {
           fetchAuthUser();
         } catch (error) {
-          console.log(error.response.message);
+          console.log(error.response.data.message);
           localStorage.removeItem("store_app_token");
         }
       }
     }
-  }, []);
+  }, [authUser]);
 
   return (
     <>

@@ -1,15 +1,15 @@
 import React from 'react';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 
 const MainTitle = ({title}) => {
     return (
       <>
-        <div className="bg-dark my-5 py-2 px-2">
+        <Box sx={{ bgcolor: "#2e3134", my: 5, px: 2,py:1 }}>
           <Button sx={{ color: "white" }} startIcon={<DoubleArrowIcon />}>
-           {title}
+            {title}
           </Button>
-        </div>
+        </Box>
       </>
     );
 }

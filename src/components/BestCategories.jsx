@@ -6,6 +6,7 @@ import {
 import * as React from "react";
 import computer from "../images/lenovo.jpg";
 import phone from "../images/3.jpg";
+import suit from "../images/suit.jpg";
 
  
 import CategoryItem from "./CategoryItem";
@@ -18,7 +19,7 @@ const BestCategories = () => {
       <MainTitle title="Best Categories" />
       <Grid container spacing={5}>
         <CategoryItem img={computer} title="computers" />
-        <CategoryItem img={phone} title="clothes" />
+        <CategoryItem img={suit} title="clothes" />
         <CategoryItem img={phone} title="phones" />
         <CategoryItem img={computer} title="shoes" />
       </Grid>

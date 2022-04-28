@@ -8,10 +8,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useReducer } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import {useNavigate} from "react-router-dom"
-import { registerUser, setAuthUser } from "../../store/actions/auth";
+import { registerUser } from "../../store/actions/auth";
 import { activateError, activateLoading, deactivateError, deactivateLoading } from "../../store/actions/errorAndLoading";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -115,7 +115,12 @@ const navigate = useNavigate();
          })
          .catch((error) => {
            redux_dispatch(deactivateLoading());
-           handleError(error.response.data.message);
+                 let error_message = error.response
+        ? error.response.data.message
+        : error.message;
+  
+       handleError(error_message);
+           
          });
  
   };

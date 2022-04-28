@@ -55,7 +55,11 @@ const Login = ({ changeActiveForm }) => {
       }
     } catch (error) {
       setLoading(false);
-       handleError("Wrong email or password");
+          let error_message = error.response
+        ? error.response.data.message
+        : error.message;
+  
+       handleError(error_message);
     }
   };
 

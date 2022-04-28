@@ -36,9 +36,10 @@ const ProductsSearch = () => {
 
   const handleSearch = async (e) => {
     let searchTerm = e.target.value.trim();
+     setNothingFound(false);
     if (searchTerm.length > 1) {
       try {
-        setNothingFound(false);
+       
         setLoadingResult(true);
         setFoundProducts([]);
         let rs = await api.get(`/products/search?search=${searchTerm}`);
@@ -180,7 +181,7 @@ navigate(`/product_details/${id}`);
                                 sx={{ width: { xs: 300, sm: 350 } }}
                                 className="searchResult"
                               >
-                                <img src={product.images[0]} alt="search img" />
+                                <img src={product.images[0]} alt="search pic" />
                                 <Box ml={1}>
                                   <Typography>{product.title}</Typography>
                                   <Typography variant="body2">
@@ -209,7 +210,7 @@ navigate(`/product_details/${id}`);
                         justifyContent="center"
                         alignItems="center"
                       >
-                        <img width="60" src={notFound} />
+                        <img width="60" src={notFound} alt="not found" />
                         <Typography>We couldn't find any matches..</Typography>
                       </Stack>
                     )}
