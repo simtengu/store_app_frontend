@@ -8,6 +8,8 @@ import { setAuthUser } from "../../store/actions/auth";
 import MuiAlert from "@mui/material/Alert";
 import { Logout } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import ScrollToTop from "../ScrollToTop";
+import { useEffect } from "react";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -60,91 +62,97 @@ const Login = ({ changeActiveForm }) => {
     }
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <Grid container>
-      <Grid className="registerFormBgg" item xs={12} md={6}>
-        <img style={{ width: "90%" }} src={loginImg} alt="loginImg" />
-      </Grid>
+    <>
+      <Grid container>
+        <Grid className="registerFormBgg" item xs={12} md={6}>
+          <img style={{ width: "90%" }} src={loginImg} alt="loginImg" />
+        </Grid>
 
-      <Grid className="registerFormDiv" item xs={12} md={6} sx={{ p: 2 }}>
-        <Box component="form" autoComplete="off" sx={{ py: 1 }}>
-          <Typography variant="h5" sx={{ color: "#1976d2", mb: 1 }}>
-            Login here
-          </Typography>
-          <Typography variant="caption" gutterBottom>
-            (email: simtengu@gmail.com, password:simtengu) admin credentials
-          </Typography>
-          {error && (
-            <Alert sx={{ my: 1 }} severity="error">
-              {errorMessage}
-            </Alert>
-          )}
-
-          <div>
-            <TextField
-              type="email"
-              label="Email"
-              fullWidth
-              margin="normal"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <TextField
-              type="password"
-              label="password"
-              fullWidth
-              margin="normal"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-            }}
-          >
-            {loading ? (
-              <LoadingButton
-                color="primary"
-                loading={loading}
-                loadingPosition="start"
-                startIcon={<Logout />}
-                variant="contained"
-                size="large"
-              >
-                Login
-              </LoadingButton>
-            ) : (
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                sx={{ mt: 1 }}
-                onClick={handleFormSubmit}
-              >
-                Login
-              </Button>
+        <Grid className="registerFormDiv" item xs={12} md={6} sx={{ p: 2 }}>
+          <Box component="form" autoComplete="off" sx={{ py: 1 }}>
+            <Typography variant="h5" sx={{ color: "#1976d2", mb: 1 }}>
+              Login here
+            </Typography>
+            <Typography variant="caption" gutterBottom>
+              (email: simtengu@gmail.com, password:simtengu) admin credentials
+            </Typography>
+            {error && (
+              <Alert sx={{ my: 1 }} severity="error">
+                {errorMessage}
+              </Alert>
             )}
 
-            <Button
-              variant="text"
-              sx={{ color: "#969696", marginRight: 2 }}
-              onClick={() => changeActiveForm("register")}
+            <div>
+              <TextField
+                type="email"
+                label="Email"
+                fullWidth
+                margin="normal"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+
+            <div>
+              <TextField
+                type="password"
+                label="password"
+                fullWidth
+                margin="normal"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-end",
+              }}
             >
-              I don't have an account
-            </Button>
+              {loading ? (
+                <LoadingButton
+                  color="primary"
+                  loading={loading}
+                  loadingPosition="start"
+                  startIcon={<Logout />}
+                  variant="contained"
+                  size="large"
+                >
+                  Login
+                </LoadingButton>
+              ) : (
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                  sx={{ mt: 1 }}
+                  onClick={handleFormSubmit}
+                >
+                  Login
+                </Button>
+              )}
+
+              <Button
+                variant="text"
+                sx={{ color: "#969696", marginRight: 2 }}
+                onClick={() => changeActiveForm("register")}
+              >
+                I don't have an account
+              </Button>
+            </Box>
           </Box>
-        </Box>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 

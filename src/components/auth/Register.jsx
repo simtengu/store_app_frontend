@@ -1,3 +1,4 @@
+import React, { useReducer,useEffect } from "react";
 import { Logout } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -8,11 +9,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useReducer } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import {useNavigate} from "react-router-dom"
 import { registerUser } from "../../store/actions/auth";
 import { activateError, activateLoading, deactivateError, deactivateLoading } from "../../store/actions/errorAndLoading";
+import ScrollToTop from "../ScrollToTop";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -125,7 +126,14 @@ const navigate = useNavigate();
  
   };
 
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+
+
   return (
+    <>
+    
     <Grid container>
       <Grid className="registerFormBg" item xs={12} md={6}></Grid>
       {/* bgcolor: "#e2e2e2" */}
@@ -265,6 +273,7 @@ const navigate = useNavigate();
         </Box>
       </Grid>
     </Grid>
+    </>
   );
 };
 
