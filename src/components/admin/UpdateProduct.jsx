@@ -16,7 +16,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { AddAPhoto, Save } from "@mui/icons-material";
-import { tags, categories,brands } from "../../resources/productData";
+import { tags, categories, brands } from "../../resources/productData";
 import axios from "../../api/secureApi";
 import { update_product } from "../../store/actions/products";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,11 +30,9 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 const UpdateProduct = () => {
-
-
-   const { systemProducts } = useSelector((state) => state.products);
-  let {productId} = useParams();
-  let product  = systemProducts.find(item=>item._id === productId);
+  const { systemProducts } = useSelector((state) => state.products);
+  let { productId } = useParams();
+  let product = systemProducts.find((item) => item._id === productId);
   const dispatch = useDispatch();
   let initialProductState = {
     title: product.title,
@@ -151,7 +149,7 @@ const UpdateProduct = () => {
       ...productInfo,
       tags: productTags,
     };
-   
+
     //submitting the product.........
     try {
       setIsLoading(true);
@@ -176,29 +174,28 @@ const UpdateProduct = () => {
   };
 
   const handleImageDelete = async (e) => {
-      const img_id = e.target.value;
-      try {
-          setIsLoading(true);
-          let rs = await axios.patch(
-              `/admin/product_image_delete/${product._id}`,
-              {image_id:img_id}
-              );
-              if(rs.status === 200){
-                  let newImgsList = productImages.filter(image=> image.Image_id !== img_id);
-                   setProductImages(newImgsList)
-        }
-     
-          setIsLoading(false);
-      } catch (error) {
-              setIsLoading(false);
-              setFeedback({
-                message: error.response.data.message,
-                status: "error",
-                isActive: true,
-              });
-              console.log(error.response.data.message);  
-      }
- 
+    const img_id = e.target.value;
+    try {
+      setIsLoading(true);
+      await axios.patch(`/admin/product_image_delete/${product._id}`, {
+        image_id: img_id,
+      });
+
+      let newImgsList = productImages.filter(
+        (image) => image.image_id !== img_id
+      );
+      setProductImages(newImgsList);
+
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      setFeedback({
+        message: error.response.data.message,
+        status: "error",
+        isActive: true,
+      });
+      console.log(error.response.data.message);
+    }
   };
 
   return (
