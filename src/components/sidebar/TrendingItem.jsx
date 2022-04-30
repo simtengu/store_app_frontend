@@ -5,7 +5,7 @@ const TrendingItem = ({ product }) => {
   const { images, title, price, category,_id } = product;
   return (
     <>
-      <Grid item xs={12} >
+      <Grid item xs={12}>
         <Link className="normalLink" to={`/product_details/${_id}`}>
           <Paper elevation={3}>
             <Grid container>
@@ -13,7 +13,7 @@ const TrendingItem = ({ product }) => {
                 <CardMedia
                   component="img"
                   sx={{ width: "100%" }}
-                  image={images[0]}
+                  image={images.length > 0 ? images[0].image :  ""}
                   alt="trending img"
                 />
               </Grid>

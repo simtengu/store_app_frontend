@@ -17,37 +17,34 @@ const Login = ({ changeActiveForm }) => {
   let [password, setPassword] = useState("");
   let [error, setError] = useState(false);
   let [loading, setLoading] = useState(false);
-  let [errorMessage,setErrorMessage] = useState("");
+  let [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
-  //error handler function....................... 
-    const handleError = (message) => {
-      setError(true);
-      setErrorMessage(message);
-      setTimeout(() => {
-        setError(false);
-      }, 3000);
-    };
+  //error handler function.......................
+  const handleError = (message) => {
+    setError(true);
+    setErrorMessage(message);
+    setTimeout(() => {
+      setError(false);
+    }, 3000);
+  };
 
   const dispatch = useDispatch();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password) {
-       handleError("Make sure you enter both email and password");
+      handleError("Make sure you enter both email and password");
       return;
     }
     //logging in a user..............
     const userData = { email: username, password };
     try {
       setLoading(true);
-      const response = await api.post("/login",
-        userData
-      );
+      const response = await api.post("/login", userData);
       setLoading(false);
       if (response.status === 200) {
-        
         const { token, user } = await response.data;
         localStorage.setItem("store_app_token", token);
         dispatch(setAuthUser(user));
@@ -55,11 +52,11 @@ const Login = ({ changeActiveForm }) => {
       }
     } catch (error) {
       setLoading(false);
-          let error_message = error.response
+      let error_message = error.response
         ? error.response.data.message
         : error.message;
-  
-       handleError(error_message);
+
+      handleError(error_message);
     }
   };
 
@@ -74,9 +71,12 @@ const Login = ({ changeActiveForm }) => {
           <Typography variant="h5" sx={{ color: "#1976d2", mb: 1 }}>
             Login here
           </Typography>
+          <Typography variant="caption" gutterBottom>
+            (email: simtengu@gmail.com, password:simtengu) admin credentials
+          </Typography>
           {error && (
             <Alert sx={{ my: 1 }} severity="error">
-        {errorMessage}
+              {errorMessage}
             </Alert>
           )}
 

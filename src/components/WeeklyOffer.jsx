@@ -34,7 +34,7 @@ const WeeklyOffer = () => {
     price: "500000",
     description: "the best in town at the moment",
     category: "the best category for the best phone",
-    images: ["http://localhost:5000/uploads/83830033.jpg"],
+    images: [{image:"http://localhost:5000/uploads/83830033.jpg"}],
   };
 
   let newPrice = products && products.length > 0 ? product.price - Math.ceil((30 / 100) * product.price) : 444;
@@ -66,7 +66,7 @@ const WeeklyOffer = () => {
        brand: product.brand,
        _id: id,
        price,
-       image: images[0],
+       image: images[0].image,
      };
 
      try {
@@ -243,7 +243,11 @@ const WeeklyOffer = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <Paper sx={{ bgcolor: "#51a2df", px: 3, py: 3 }} square>
-                <img style={{ width: "100%" }} src={images[0]} alt="pc img" />
+                <img
+                  style={{ width: "100%" }}
+                  src={images.length > 0 ? images[0].image : ""}
+                  alt="weekly imgg"
+                />
               </Paper>
             </Grid>
           </Grid>

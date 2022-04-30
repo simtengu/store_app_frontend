@@ -15,10 +15,6 @@ import {
   Paper,
 } from "@mui/material";
 import SideBarItem from "./SideBarItem";
-import img from "../../images/chels.jpg";
-import img1 from "../../images/bg1.jpg";
-import img2 from "../../images/bg2.jpg";
-import img3 from "../../images/1.jpg";
 import TrendingItem from "./TrendingItem";
 import { categories, tags } from "../../resources/productData";
 import { useNavigate } from "react-router-dom";

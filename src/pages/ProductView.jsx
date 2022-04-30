@@ -47,7 +47,7 @@ const ProductView = () => {
   const {
     cart: { cartItems },
   } = useSelector((state) => state.cart);
-  
+
   const { authUser } = useSelector((state) => state.auth);
   //handling response state(feedback)........
   const [feedback, setFeedback] = useState({
@@ -79,7 +79,7 @@ const ProductView = () => {
       brand: product.brand,
       _id: product._id,
       price: product.price,
-      image: product.images[0],
+      image: product.images[0].image,
     };
 
     try {
@@ -199,10 +199,21 @@ const ProductView = () => {
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
                 {/* selected  image...................... */}
-                <a href={product.images[activeImg]} target="blank">
+                <a
+                  href={
+                    product.images.length > 0
+                      ? product.images[activeImg].image
+                      : ""
+                  }
+                  target="blank"
+                >
                   <img
                     className="productViewImage"
-                    src={product.images[activeImg]}
+                    src={
+                      product.images.length > 0
+                        ? product.images[activeImg].image
+                        : ""
+                    }
                     alt="product "
                   />
                 </a>
@@ -218,7 +229,7 @@ const ProductView = () => {
                       <Grid key={index} item xs={3}>
                         <img
                           className="productViewImage"
-                          src={img}
+                          src={img.image}
                           alt="product"
                           onClick={() => handleSetImg(index)}
                         />
@@ -289,14 +300,12 @@ const ProductView = () => {
                         <Tooltip title="Add To Wishlist" placement="top" arrow>
                           <IconButton
                             onClick={handleAddToWishlist}
-                        
                             sx={{ color: "#a0b3b8" }}
                           >
                             <Star />
                           </IconButton>
                         </Tooltip>
                       )}
-                
 
                       <Tooltip title="Share This Product" placement="top" arrow>
                         <IconButton sx={{ color: "#a0b3b8" }}>

@@ -22,7 +22,9 @@ import {
   deleteProduct,
   fetchSystemProducts,
 } from "../../store/actions/products";
+import { useNavigate } from "react-router-dom";
 const AdminProducts = () => {
+  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedProductId, setSelectedProduct] = useState("");
@@ -58,7 +60,8 @@ const AdminProducts = () => {
     } catch (error) {
       setSelectedProduct("");
       setIsLoading(false);
-      alert("something went wrong ... try again later");
+      let msg = error.response.data.message;
+      alert(msg || "something went wrong");
     }
   };
   //delete dialog logic..................
@@ -117,7 +120,7 @@ const AdminProducts = () => {
                     <CardMedia
                       component="img"
                       alt="green iguana"
-                      image={product.images[0]}
+                      image={ product.images.length > 0 ? product.images[0].image :  "" }
                     />
                     <CardContent sx={{ pt: 1, pb: 0 }}>
                       <Typography variant="caption">
@@ -128,7 +131,9 @@ const AdminProducts = () => {
                     <CardActions disableSpacing>
                       <IconButton
                         value="testing value"
-                        onClick={() => console.log('yeah')}
+                        onClick={() =>
+                          navigate(`/user_account/update_product/${product._id}`)
+                        }
                         aria-label="edit"
                       >
                         <Edit sx={{ color: "#f7bb09" }} />

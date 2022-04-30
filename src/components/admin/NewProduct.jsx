@@ -75,9 +75,8 @@ const NewProduct = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       let responseData = await rs.data;
-      let imgPath = "http://localhost:5000/" + responseData.path;
-
-      let newProductImagesList = productImages.concat([imgPath]);
+    
+      let newProductImagesList = productImages.concat([responseData.image]);
       setProductImages(newProductImagesList);
       setTempImage("");
       setSelectedImage("");
@@ -104,16 +103,16 @@ const NewProduct = () => {
     const selectedTag = event.target.value;
 
     const tag = allTags.find((tag) => {
-      return tag.name == selectedTag;
+      return tag.name === selectedTag;
     });
 
      const tagIndex = allTags.findIndex((tag) => {
-       return tag.name == selectedTag;
+       return tag.name === selectedTag;
      }); 
 
     if (tag.checked) {
       //a tag has been unchecked ......... removing from product tags list
-      let newProductTags = productTags.filter((tag) => tag != selectedTag);
+      let newProductTags = productTags.filter((tag) => tag !== selectedTag);
       setProductTags(newProductTags);
       console.log(productTags);
     } else {
@@ -168,8 +167,7 @@ const NewProduct = () => {
       tags: productTags,
       images: productImages,
     };
-    console.log(productData);
-
+    
     //submitting the product.........
     try {
       setIsLoading(true);
@@ -374,6 +372,7 @@ const NewProduct = () => {
                   <img
                     style={{ width: "220px", height: "auto" }}
                     src={tempImage}
+                    alt="aos"
                   />
                   <div
                     style={{
@@ -445,11 +444,11 @@ const NewProduct = () => {
               {/* uploaded images flexbox */}
               {productImages.length > 0 ? (
                 <Grid container spacing={2} mt={2}>
-                  {productImages.map((path, index) => {
+                  {productImages.map((img, index) => {
                     return (
                       <Grid key={index} item xs={4} md={6}>
                         <img
-                          src={path}
+                          src={img.image}
                           style={{ width: "97%", height: "auto" }}
                           alt="product image"
                         />

@@ -74,9 +74,8 @@ const UpdateProduct = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       let responseData = await rs.data;
-      let imgPath = "http://localhost:5000/" + responseData.path;
 
-      let newProductImagesList = productImages.concat([imgPath]);
+      let newProductImagesList = productImages.concat([responseData.image]);
       setProductImages(newProductImagesList);
       setTempImage("");
       setSelectedImage("");
@@ -153,7 +152,6 @@ const UpdateProduct = () => {
       tags: productTags,
     };
    
-
     //submitting the product.........
     try {
       setIsLoading(true);
@@ -178,20 +176,18 @@ const UpdateProduct = () => {
   };
 
   const handleImageDelete = async (e) => {
-      const img = e.target.value;
+      const img_id = e.target.value;
       try {
           setIsLoading(true);
           let rs = await axios.patch(
               `/admin/product_image_delete/${product._id}`,
-              {image:img}
+              {image_id:img_id}
               );
               if(rs.status === 200){
-                  let newImgsList = productImages.filter(image=> image !== img);
+                  let newImgsList = productImages.filter(image=> image.Image_id !== img_id);
                    setProductImages(newImgsList)
         }
-        let rsData = await rs.data;
-        console.log(rsData);
-          
+     
           setIsLoading(false);
       } catch (error) {
               setIsLoading(false);
@@ -376,6 +372,7 @@ const UpdateProduct = () => {
                   <img
                     style={{ width: "220px", height: "auto" }}
                     src={tempImage}
+                    alt="aos"
                   />
                   <div
                     style={{
@@ -447,16 +444,16 @@ const UpdateProduct = () => {
               {/* uploaded images flexbox */}
               {productImages.length > 0 ? (
                 <Grid container spacing={2} mt={2}>
-                  {productImages.map((path, index) => {
+                  {productImages.map((img, index) => {
                     return (
                       <Grid key={index} item xs={4} md={6}>
                         <img
-                          src={path}
+                          src={img.image}
                           style={{ width: "97%", height: "auto" }}
                           alt="product image"
                         />
                         <Button
-                          value={path}
+                          value={img.image_id}
                           onClick={handleImageDelete}
                           variant="text"
                         >

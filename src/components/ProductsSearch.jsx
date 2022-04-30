@@ -181,7 +181,10 @@ navigate(`/product_details/${id}`);
                                 sx={{ width: { xs: 300, sm: 350 } }}
                                 className="searchResult"
                               >
-                                <img src={product.images[0]} alt="search pic" />
+                                <img
+                                  src={product.images[0].image}
+                                  alt="search pic"
+                                />
                                 <Box ml={1}>
                                   <Typography>{product.title}</Typography>
                                   <Typography variant="body2">

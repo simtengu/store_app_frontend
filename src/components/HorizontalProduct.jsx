@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
-  Favorite as FavoriteIcon,
-  Share as ShareIcon,
+  
   ShoppingCart,
   Star,
   AddShoppingCart,
@@ -76,7 +75,7 @@ const HorizontalProduct = ({ product }) => {
       brand: product.brand,
       _id: id,
       price,
-      image: images[0],
+      image: images[0].image,
     };
 
     try {
@@ -131,7 +130,7 @@ const HorizontalProduct = ({ product }) => {
             sx={{ width: "40%" }}
             component="img"
             alt="green iguana"
-            image={images[0]}
+            image={images.length > 0 ? images[0].image : ""}
           />
           <Box sx={{ maxWidth: "60%" }}>
             <CardContent sx={{ pt: 1, pb: 0 }}>

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import {
   AddShoppingCart,
-  Favorite as FavoriteIcon,
-  Share as ShareIcon,
   ShoppingCart,
   Star,
 } from "@mui/icons-material";
@@ -76,7 +74,7 @@ const Product = ({ product }) => {
       brand: product.brand,
       _id: id,
       price,
-      image: images[0],
+      image: images.length > 0 ? images[0].image : "",
     };
 
     try {
@@ -125,7 +123,11 @@ const Product = ({ product }) => {
             "&:hover": { boxShadow: "1px 1px 3px #db8526" },
           }}
         >
-          <CardMedia component="img" alt="green iguana" image={images[0]} />
+          <CardMedia
+            component="img"
+            alt="green iguana"
+            image={images.length > 0 ? images[0].image : ""}
+          />
 
           <CardContent sx={{ pt: 1, pb: 0 }}>
             <Typography
