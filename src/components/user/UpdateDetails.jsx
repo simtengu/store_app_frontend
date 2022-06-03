@@ -11,19 +11,17 @@ import {
 } from "@mui/material";
 import { Save } from "@mui/icons-material";
 
-
 import {
   activateError,
   activateLoading,
   deactivateError,
   deactivateLoading,
 } from "../../store/actions/errorAndLoading";
-import {updateUser} from "../../store/actions/auth"
+import { updateUser } from "../../store/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 const UpdateDetails = () => {
-
-   const { authUser } = useSelector((state) => state.auth);
-   let user = authUser || {};
+  const { authUser } = useSelector((state) => state.auth);
+  let user = authUser || {};
   const reducer = (state, action) => {
     switch (action.type) {
       case "setFirstName":
@@ -82,12 +80,19 @@ const UpdateDetails = () => {
     }
 
     //registering a user..............
-    const userData = {
-      firstName: userInfo.firstName,
-      lastName: userInfo.lastName,
-      email: userInfo.email,
-      phone: userInfo.phone,
-    };
+
+    const userData = user.isAdmin
+      ? {
+          firstName: userInfo.firstName,
+          lastName: userInfo.lastName,
+          phone: userInfo.phone,
+        }
+      : {
+          firstName: userInfo.firstName,
+          lastName: userInfo.lastName,
+          email: userInfo.email,
+          phone: userInfo.phone,
+        };
 
     //dispatching action for registration of a user.............
     redux_dispatch(activateLoading());
@@ -195,11 +200,10 @@ const UpdateDetails = () => {
         </Button>
       </Box>
       <div>
-       
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={isLoading}
-          onClick={()=> redux_dispatch(deactivateLoading())}
+          onClick={() => redux_dispatch(deactivateLoading())}
         >
           <CircularProgress color="inherit" />
         </Backdrop>
