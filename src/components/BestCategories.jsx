@@ -5,6 +5,7 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import computer from "../images/lenovo.jpg";
+import shoe from "../images/shoe.jpg";
 import phone from "../images/3.jpg";
 import suit from "../images/suit.jpg";
 
@@ -21,7 +22,7 @@ const BestCategories = () => {
         <CategoryItem img={computer} title="computers" />
         <CategoryItem img={suit} title="clothes" />
         <CategoryItem img={phone} title="phones" />
-        <CategoryItem img={computer} title="shoes" />
+        <CategoryItem img={shoe} title="shoes" />
       </Grid>
     </>
   );

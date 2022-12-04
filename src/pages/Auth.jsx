@@ -1,25 +1,45 @@
 
 import { Box, Container, Grid, Paper } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
-import { unSetAuthUser } from "../store/actions/auth";
 import { activate_login_form, activate_register_form } from "../store/actions/authForms";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import {useNavigate} from "react-router-dom";
+import { setAuthUser } from "../store/actions/auth";
+import axios from "axios";
 
 const Auth = () => {
+  const token = localStorage.getItem('store_app_token')
+  const[isLoading,setIsLoading] = useState(token ? true : false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { activeForm } = useSelector((state) => state.authForm);
-  const { authUser } = useSelector((state) => state.auth);
  useEffect(() => {
-   const token = localStorage.getItem('store_app_token')
-   if(token){
-     navigate('/',{replace:true})
-   }
- }, [])
+
+  if (token) {
+    const fetchAuthUser = async () => {
+      const response = await axios.get("/user");
+      const { user } = response.data;
+      if (user) {
+        dispatch(setAuthUser(user));
+      }
+    };
+    try {
+      fetchAuthUser();
+      navigate('/',{replace:true})
+      setIsLoading(false)
+    } catch (error) {
+      console.log(error.response.data.message);
+      localStorage.removeItem("store_app_token");
+      setIsLoading(false)
+    }
+  }
+
+ }, [token])
   const handleActiveForm = () => {
     if (activeForm === "login") {
       dispatch(activate_register_form());
@@ -27,6 +47,21 @@ const Auth = () => {
       dispatch(activate_login_form());
     }
   };
+
+
+
+  if(isLoading){
+    return     <div>
+   
+    <Backdrop
+      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={isLoading}
+      onClick={()=>setIsLoading(false)}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  </div>
+  }
 
   return (
     <>

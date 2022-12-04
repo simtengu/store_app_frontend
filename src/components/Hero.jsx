@@ -27,11 +27,11 @@ const Hero = () => {
         >
           <Container>
             <Grid container>
-              <Grid item xs={12} md={7}>
-                <Box sx={{ my: 11 }}>
+              <Grid item xs={12} md={7} >
+                <Box sx={{ p:4, my: 11,bgcolor:"rgba(255,255,255,0.5)",borderBottom:"6px solid #dd9b00" }}>
                   <Typography
                     variant="h3"
-                    sx={{ fontWeight: "bold", color: "#dd9b00",fontSize:{xs:"1.6rem",sm:"1.8rem",md:"3rem"} }}
+                    sx={{fontFamily:"'Roboto Slab', serif", fontWeight: "bold", color: "#dd9b00",fontSize:{xs:"1.6rem",sm:"1.8rem",md:"2.5rem"} }}
                   >
                     Welcome to{" "}
                     <span style={{ color: "#2f87ce" }}>SimpleShopApp</span>

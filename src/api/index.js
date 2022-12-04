@@ -1,7 +1,7 @@
 import axios from 'axios'
 
  const axiosInstance = axios.create({
-     baseURL:'https://aos-store-app.herokuapp.com/api'
+     baseURL:'https://storeapp-production.up.railway.app/api'
 })  
 
 

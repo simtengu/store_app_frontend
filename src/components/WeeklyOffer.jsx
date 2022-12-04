@@ -147,7 +147,7 @@ const WeeklyOffer = () => {
                 <Box sx={{ mt: 2 }}>
                   <Typography
                     variant="body"
-                    sx={{ color: "#5b5b5b", display: "block" }}
+                    sx={{ color: "#000", display: "block" }}
                   >
                     {description}
                   </Typography>
