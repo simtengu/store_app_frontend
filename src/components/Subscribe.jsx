@@ -1,5 +1,5 @@
 import { MailOutline } from "@mui/icons-material";
-import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 const Subscribe = () => {
   return (
@@ -30,7 +30,7 @@ const Subscribe = () => {
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={{px: {xs:2,md:1}}}>
             <div
               style={{
                 width: "100%",
