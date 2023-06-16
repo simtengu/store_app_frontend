@@ -28,6 +28,8 @@ const Auth = () => {
         if (user) {
           dispatch(setAuthUser(user));
           navigate("/", { replace: true });
+        } else {
+          setIsLoading(false);
         }
       };
       try {
