@@ -25,11 +25,13 @@ const Auth = () => {
       const fetchAuthUser = async () => {
         const response = await axiosInstance.get("/user");
         const { user } = response.data;
+
         if (user) {
+          console.log("user found. ", user);
           dispatch(setAuthUser(user));
           navigate("/", { replace: true });
         } else {
-          setIsLoading(false);
+          console.log("no user found....... ", user);
         }
       };
       try {
@@ -37,10 +39,10 @@ const Auth = () => {
       } catch (error) {
         console.log(error.response.data.message);
         localStorage.removeItem("store_app_token");
-        setIsLoading(false);
       }
     }
-  }, [token, dispatch, navigate]);
+    setIsLoading(false);
+  }, [token]);
 
   const handleActiveForm = () => {
     if (activeForm === "login") {

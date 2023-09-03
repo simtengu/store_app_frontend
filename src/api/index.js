@@ -1,8 +1,7 @@
-import axios from 'axios'
+import axios from "axios";
 
- const axiosInstance = axios.create({
-     baseURL:'https://storeapp-production.up.railway.app/api'
-})  
-
+const axiosInstance = axios.create({
+  baseURL: "https://store-app-t08k.onrender.com/api",
+});
 
 export default axiosInstance;

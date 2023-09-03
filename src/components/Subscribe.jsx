@@ -1,5 +1,5 @@
 import { MailOutline } from "@mui/icons-material";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import React from "react";
 const Subscribe = () => {
   return (
@@ -30,25 +30,31 @@ const Subscribe = () => {
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12} md={6} sx={{px: {xs:2,md:1}}}>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                px: 4,
               }}
               className="subscribeForm"
             >
-              <input
-                type="email"
-                style={{ fontFamily: "roboto", fontSize: 16 }}
-                placeholder="enter your email"
-              />
-              <button style={{ fontFamily: "roboto", fontSize: 16 }}>
-                subscribe
-              </button>
-            </div>
+              <Stack flexDirection="row" >
+                <Box>
+                  <input
+                    type="email"
+                    style={{
+                      fontFamily: "roboto",
+                      fontSize: 16,
+                   
+                    }}
+                    placeholder="enter your email"
+                  />
+                </Box>
+
+                <button style={{ fontFamily: "roboto", fontSize: 16 }}>
+                  subscribe
+                </button>
+              </Stack>
+            </Box>
           </Grid>
         </Grid>
       </Box>

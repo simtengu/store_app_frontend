@@ -1,4 +1,4 @@
-import { Apps, Article, DensitySmall } from "@mui/icons-material";
+import { Apps, DensitySmall } from "@mui/icons-material";
 import {
   Backdrop,
   Box,
@@ -19,7 +19,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, } from "react";
 import { brands, categories, orderBys, tags } from "../resources/productData";
 import axios from "../api";
 import { setFilteredProducts } from "../store/actions/products";
